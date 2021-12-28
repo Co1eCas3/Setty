@@ -1,0 +1,116 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int        @id @default(autoincrement())
+  fbuid String?    @unique
+  name  String?
+  email String     @unique
+  bands BandUser[]
+}
+
+model Band {
+  id          Int        @id @default(autoincrement())
+  name        String
+  webSafeName String     @unique
+  users       BandUser[]
+
+  songs BandSong[]
+  lists List[]
+
+  @@index([name])
+}
+
+model BandUser {
+  user    User @relation(fields: [user_id], references: [id])
+  user_id Int
+  band    Band @relation(fields: [band_id], references: [id])
+  band_id Int
+
+  userRole                 Int
+  bandRole                 Int
+  otherBandRoleDescription String?
+
+  @@id([user_id, band_id])
+}
+
+model Song {
+  id       Int        @id @default(autoincrement())
+  isrc     Int        @unique
+  name     String
+  artist   String
+  duration Int
+  bands    BandSong[]
+  links    SongLink[]
+
+  @@index([name, artist])
+}
+
+model BandSong {
+  id      Int  @id @default(autoincrement())
+  band    Band @relation(fields: [band_id], references: [id])
+  band_id Int
+  song    Song @relation(fields: [song_id], references: [id])
+  song_id Int
+
+  sets Set[] @relation("SetSong", references: [id])
+
+  @@unique([id, band_id, song_id])
+}
+
+model List {
+  id        Int       @id @default(autoincrement())
+  band      Band      @relation(fields: [band_id], references: [id])
+  band_id   Int
+  venue     String
+  startTime DateTime?
+  endTime   DateTime?
+  breaks    Int       @default(0)
+  breakTime Int       @default(15) // in minutes
+
+  sets Set[]
+}
+
+model Set {
+  id      Int  @id @default(autoincrement())
+  order   Int  @default(1)
+  list    List @relation(fields: [list_id], references: [id])
+  list_id Int
+
+  songs BandSong[] @relation("SetSong", references: [id])
+}
+
+model SongLink {
+  id      Int  @id @default(autoincrement())
+  song    Song @relation(fields: [song_id], references: [id])
+  song_id Int
+
+  src                      Source   @relation(fields: [src_id], references: [id])
+  src_id                   Int      @unique
+  category                 Category @relation(fields: [category_id], references: [id])
+  category_id              Int      @unique
+  otherCategoryDescription String?
+}
+
+model Source {
+  id          Int    @id @default(autoincrement())
+  description String
+
+  link SongLink?
+}
+
+model Category {
+  id          Int    @id @default(autoincrement())
+  description String
+
+  link SongLink?
+}

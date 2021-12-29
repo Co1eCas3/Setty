@@ -9,7 +9,9 @@
 	export let validateOn = 'input';
 	export let isErred;
 
-	$: validationMessage = validationFn(value);
+	let el;
+
+	$: validationMessage = validationFn(value, el);
 	$: isErred = !isEmpty(validationMessage);
 
 	function validateOnHandler(inp, _value) {
@@ -49,7 +51,7 @@
 </script>
 
 <div>
-	<input {type} {placeholder} use:validateOnHandler={value} />
+	<input {type} {placeholder} use:validateOnHandler={value} bind:this={el} />
 	<small>{validationMessage}</small>
 </div>
 

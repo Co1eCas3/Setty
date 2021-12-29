@@ -18,10 +18,10 @@ export const name = name => {
     return '';
 }
 
-export const bandName = name => {
+export const bandName = (name, el) => {
   if (validator.isEmpty(name)) return '';
   if (validator.matches(name, /[=+%;:]/))
-    return "Whoops! Can't use some special characters for safety reasons"
+    return "Some special characters are restricted";
   if (!validator.isLength(name, { max: 30 }))
     return 'Can you really remember that name? Sorry, needs to be shorter...';
   return '';

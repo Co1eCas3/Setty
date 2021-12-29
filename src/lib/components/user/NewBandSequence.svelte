@@ -4,12 +4,16 @@
 	import isEmpty from 'validator/lib/isEmpty';
 	import deepcopy from 'deepcopy';
 
+	import { user } from '../../stores/user';
 	import newBandKey from '../../utils/newBandContextKey.js';
 	import { useToken } from '$lib/utils/token.js';
 	import { urlMaker } from '$lib/utils/helpers.js';
 
 	import NewBandInfoForm from './NewBandInfoForm.svelte';
 	import NewBandInviteesForm from './NewBandInviteesForm.svelte';
+	import CreateBandFailed from './CreateBandFailed.svelte';
+
+	export let closeWhenDone;
 
 	const newBandStore = writable({
 		bandRole: 1,
@@ -25,7 +29,7 @@
 	setContext(newBandKey, newBandStore);
 
 	let curStep = 0;
-	const steps = [NewBandInfoForm, NewBandInviteesForm];
+	const steps = [NewBandInfoForm, NewBandInviteesForm, CreateBandFailed];
 	let isReady;
 
 	const advance = () => curStep++;
@@ -54,7 +58,13 @@
 		const url = urlMaker({ path: 'api/bands/create' });
 		const res = await useToken(url, { method: 'POST', body: JSON.stringify(newBand) });
 
-		console.log(res);
+		if (!res.ok) {
+			console.log(res.data.error);
+			return advance();
+		}
+
+		$user.bands.push(res.data.band);
+		closeWhenDone();
 	}
 </script>
 
@@ -64,12 +74,13 @@
 	<svelte:component this={steps[curStep]} bind:isReady />
 
 	<div class="btn-cont">
-		{#if !curStep}
-			<button on:click={advance} disabled={!isReady}>Next</button>
-		{:else}
-			<button on:click={regress}>Back</button>
-			<button type="submit" disabled={!isReady}>Create Band</button>
-		{/if}
+		<button class:btnVisible={curStep === 1 || curStep === 2} on:click|preventDefault={regress}
+			>Back</button
+		>
+		<button class:btnVisible={curStep === 1} type="submit" disabled={!isReady}>Create Band</button>
+		<button class:btnVisible={curStep === 0} on:click|preventDefault={advance} disabled={!isReady}
+			>Next</button
+		>
 	</div>
 </form>
 
@@ -79,5 +90,13 @@
 		flex-direction: column;
 		place-items: center;
 		gap: 1rem;
+	}
+
+	button {
+		visibility: hidden;
+	}
+
+	.btnVisible {
+		visibility: visible;
 	}
 </style>

@@ -1,6 +1,5 @@
 import { responses } from "$lib/utils/responses";
 import db from '$lib/database/dbConnect';
-import userView from '$lib/database/views/user';
 import bandUserView from '$lib/database/views/bandUser';
 import bandView from "$lib/database/views/band";
 
@@ -15,10 +14,6 @@ export async function post(req) {
 
   try {
     const newBand = await db.band.create({
-      select: {
-        ...bandView,
-        users: true
-      },
       data: {
         name: incoming.band.name,
         webSafeName: incoming.band.webSafeName,
@@ -47,7 +42,17 @@ export async function post(req) {
       }
     });
 
-    return responses.success({ band: newBand });
+    const newBandUserInfo = await db.bandUser.findUnique({
+      where: {
+        user_id_band_id: {
+          band_id: newBand.id,
+          user_id: req.locals.userId
+        }
+      },
+      select: bandUserView
+    })
+
+    return responses.success({ band: newBandUserInfo });
   } catch (error) {
     console.log(error);
     return responses.serverError({ error: error.toString() });

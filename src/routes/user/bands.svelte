@@ -21,7 +21,7 @@
 
 	{#if addingBand}
 		<Overlay cancelCb={cancelAddBand}>
-			<NewBandSequence />
+			<NewBandSequence closeWhenDone={cancelAddBand} />
 		</Overlay>
 	{/if}
 </main>

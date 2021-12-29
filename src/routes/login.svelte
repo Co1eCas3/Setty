@@ -18,8 +18,7 @@
 	$: neededMethod = $firebase.needEmailAgain ? signIn : sendLink;
 
 	let doValidate = false;
-	// $: validationError = doValidate && !isEmail(email) ? "That email doesn't look right.." : '';
-	$: validationError = "That email doesn't look right..";
+	$: validationError = doValidate && !isEmail(email) ? "That email doesn't look right.." : '';
 
 	onMount(() => firebase.signIn());
 
@@ -39,6 +38,7 @@
 		sendingLink = false;
 		thereWasAnError = false;
 	}
+
 	async function signIn() {
 		if (!isEmail(email)) {
 			doValidate = true;
@@ -56,7 +56,7 @@
 
 	$: if ($user) {
 		if (!$user.name) goto(siteMap.newUser);
-		else if ($user.bands.length === 1) goto(siteMap.band($user.bands[0].webSafeName));
+		else if ($user.bands.length === 1) goto(siteMap.band($user.bands[0].band.webSafeName));
 		else goto(siteMap.userBands);
 	}
 </script>

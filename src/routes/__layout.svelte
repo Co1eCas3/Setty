@@ -25,8 +25,8 @@
 		background: linear-gradient(
 			90deg,
 			rgba(255, 255, 255, 0) 0%,
-			var(--txt__lt-half) 10%,
-			var(--txt__lt-half) 90%,
+			var(--clr__lt-half) 10%,
+			var(--clr__lt-half) 90%,
 			rgba(255, 255, 255, 0) 100%
 		);
 		display: flex;

@@ -12,29 +12,17 @@
 	}
 </script>
 
-<form on:submit|preventDefault={signOut}>
-	<button type="submit">{btnTxt}</button>
+<form on:submit|preventDefault={signOut} class="trans underline">
+	<button type="submit" class="">{btnTxt}</button>
 </form>
 
 <style>
-	form {
-		height: 100%;
+	* {
+		color: inherit;
 	}
 
+	form,
 	button {
 		height: 100%;
-		background-color: transparent;
-		font-family: inherit;
-		font-size: inherit;
-		color: var(--txt__lt-half);
-		border: none;
-		cursor: pointer;
-		display: flex;
-		place-items: center;
-		transition: color 0.1s linear;
-	}
-
-	button:hover {
-		color: var(--clr__accent);
 	}
 </style>

@@ -142,7 +142,7 @@
 		position: absolute;
 		top: 0.7em;
 		left: 0.5em;
-		color: var(--txt__lt-half);
+		color: var(--clr__lt-half);
 		font-size: 0.7em;
 	}
 
@@ -154,7 +154,7 @@
 	}
 
 	.wsn-input__cont input {
-		background-color: var(--txt__lt-dim);
+		background-color: var(--clr__lt-dim);
 		padding-left: 3.82em;
 	}
 

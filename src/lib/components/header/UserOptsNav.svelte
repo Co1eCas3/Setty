@@ -5,14 +5,16 @@
 
 	import Auth from './Auth.svelte';
 
-	let menuOpen = false;
+	let menuOpen = true;
 	$: includeProfile = !!$user && !!$page.params.band;
 </script>
 
-<nav>
-	<div class="icon-cont" on:click={() => (menuOpen = !menuOpen)}>
-		<div class="icono-user" />
+<!-- svelte-ignore a11y-mouse-events-have-key-events -->
+<nav on:mouseover={() => (menuOpen = true)} on:mouseleave={() => (menuOpen = false)}>
+	<div class="icon-cont flex stack round trans border-fill">
+		<div class={'icono-user'} />
 	</div>
+
 	{#if menuOpen}
 		<ul>
 			{#if includeProfile}
@@ -36,14 +38,8 @@
 		cursor: pointer;
 	}
 
-	/* .icono-user {
-		background-color: var(--txt__lt-dim);
-		border-radius: 50%;
-	} */
-
-	.icono-user::before {
-		width: 17px;
-		height: 17px;
+	nav:hover > .border-fill::before {
+		transform: translateY(0);
 	}
 
 	ul {
@@ -52,7 +48,7 @@
 		right: -1rem;
 		width: max-content;
 		background-color: var(--clr__dk-main);
-		box-shadow: 0 1px 6px var(--txt__lt-half);
+		box-shadow: 0 1px 6px var(--clr__lt-half);
 		font-size: 1.5rem;
 	}
 
@@ -61,7 +57,7 @@
 		min-width: 15ch;
 		min-height: calc(var(--header-height) / 1.6);
 		margin: 0 1.5rem;
-		border-bottom: 1px solid var(--txt__lt-half);
+		border-bottom: 1px solid var(--clr__lt-half);
 		display: flex;
 		place-items: center;
 	}
@@ -84,12 +80,29 @@
 	}
 
 	li:hover a {
-		color: var(--txt__lt-main);
+		color: var(--clr__lt-main);
 	}
 
 	a {
 		flex-basis: 100%;
-		color: var(--txt__lt-half);
+		color: var(--clr__lt-half);
 		transition: color 0.1s linear;
+	}
+
+	.icon-cont {
+		position: relative;
+		width: 3.5rem;
+		aspect-ratio: 1;
+		overflow: hidden;
+		justify-content: center;
+	}
+
+	[class^='icono'] {
+		z-index: 2;
+	}
+
+	.icono-user::before {
+		width: 16px;
+		height: 16px;
 	}
 </style>

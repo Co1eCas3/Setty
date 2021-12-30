@@ -98,7 +98,7 @@
 		margin-top: 5rem;
 		padding: 3rem;
 		background-color: var(--clr__dk-main);
-		color: var(--txt__lt-main);
+		color: var(--clr__lt-main);
 		font-size: 1.5rem;
 		text-align: center;
 		display: flex;
@@ -123,7 +123,7 @@
 		padding: 0.25em 0;
 		border: none;
 		border-radius: 7px;
-		background: var(--txt__lt-dim);
+		background: var(--clr__lt-dim);
 		font-size: inherit;
 		color: inherit;
 		text-align: center;

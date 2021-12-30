@@ -1,33 +1,42 @@
+@import 'open-props/style';
+
 :root {
   --header-height: 5.5rem;
+
   --clr__dk-main: #03080C;
   --clr__dk-almost: rgba(3, 8, 12, .9);
   --clr__dk-half: rgba(3, 8, 12, .5);
   --clr__dk-dim: rgba(3, 8, 12, .1);
-  --clr__accent: #D9B526;
+  --clr__dk-layer-low: rgb(26, 30, 35);
+  --clr__dk-layer-high: rgba(112, 115, 125);
+  --clr__lt-main: #DDDEEE;
+  --clr__lt-almost: rgba(221, 222, 238, .8);
+  --clr__lt-half: rgba(221, 222, 238, .5);
+  --clr__lt-dim: rba(221, 222, 238, .2);
+  --clr__accent: #d9b526;
   --clr__accent-half: rgba(217, 181, 38, .5);
   --clr__accent-dim: rgba(217, 181, 38, .1);
-  --txt__lt-main: #DDDEEE;
-  --txt__lt-half: rgba(221, 222, 238, .5);
-  --txt__lt-dim: rgba(221, 222, 238, .1); 
+  
 
-  --elipse-loader: elipse-loader 1s steps(4) infinite;
 }
 
 *, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  writing-mode: horizontal-tb;
 }
 
 *::before, *::after {
   content: '';
+  position: absolute;
 }
 
 html {
   min-width: 100vw;
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  letter-spacing: var(--font-letterspacing-4);
 }
 
 body, #svelte {
@@ -40,7 +49,7 @@ ul {
   list-style-type: none;
 }
 
-a, a:hover, a:active {
+a, a:visited, a:-webkit-any-link {
   text-decoration: none;
   color: inherit;
 }
@@ -58,6 +67,11 @@ input:is([type=text], [type=email], [type=password], [type=search], [type=url]) 
 }
 
 button {
+  border: none;
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
   cursor: pointer;
 }
 
@@ -66,26 +80,73 @@ button:disabled {
   cursor: default;
 }
 
-.icon-cont {
-  width: 3.5rem;
-  aspect-ratio: 1;
-  background-color: var(--txt__lt-dim);
-  border: 1px solid transparent;
-  border-radius: 50%;
+.flex {
   display: flex;
   justify-content: center;
   place-items: center;
-  overflow: hidden;
-  transition: border-color .1s linear;
+  gap: var(--size-fluid-3, clamp(1rem, 2vw, 2rem));
 }
 
-.icon-cont:hover {
-  border-color: var(--clr__accent);
+.stack {
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-@keyframes elipse-loader {
-  0% { content: '.'; }
-  33% { content: '..'; }
-  66% { content: '...'; }
-  100% { content: '...' }
+.round, .round::before, .round::after {
+  border-radius: 50%;
+}
+
+/* --------------------------------------------TRANSITIONS */
+
+.trans, .trans::before, .trans::after {
+  transition-duration: .2s;
+  transition-timing-function: linear;
+}
+
+.text__dim-bright, .text__dim-bright:visited {
+  color: var(--clr__lt-half) !important;
+  transition-property: color;
+}
+
+.text__dim-bright:hover, .text__dim-bright:hover:visited {
+  color: var(--clr__lt-main) !important;
+}
+
+.underline::after {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  height: 3px;
+  margin: 0 auto;
+  background-color: var(--clr__accent);
+}
+
+.underline:hover::after {
+  width: 100%;
+}
+
+.border-fill::before {
+  transition-property: transform;
+}
+
+/* needs flex-col-center */
+.border-fill::before, .border-fill::after {
+  z-index: 1;
+}
+
+.border-fill::before {
+  width: 100%; height: 100%;
+  background: var(--clr__accent);
+  transform: translateY(100%);
+}
+
+.border-fill::after {
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  background-color: var(--clr__dk-layer-low);
+}
+
+.border-fill:hover::before {
+  transform: translateY(0);
 }

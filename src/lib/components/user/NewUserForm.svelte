@@ -65,7 +65,7 @@
 		width: 100%;
 		padding: 0.25em 0.8em;
 		border-radius: 7px;
-		background-color: var(--txt__lt-dim);
+		background-color: var(--clr__lt-dim);
 		text-align: center;
 	}
 

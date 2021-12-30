@@ -65,8 +65,8 @@
 		padding: 0.5rem 1ch;
 		border: none;
 		border-radius: 7px;
-		background-color: var(--txt__lt-dim);
-		color: var(--txt__lt-main);
+		background-color: var(--clr__lt-dim);
+		color: var(--clr__lt-main);
 		font-size: 1.25rem;
 	}
 

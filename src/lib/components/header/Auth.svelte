@@ -10,7 +10,7 @@
 	$: waiting = !$firebase.statusKnown || !$userReady;
 </script>
 
-<div class="auth-cont">
+<div class="text__dim-bright">
 	{#if waiting}
 		<div class="loader-cont">
 			<Loader />
@@ -25,7 +25,7 @@
 </div>
 
 <style>
-	.auth-cont {
+	/* .auth-cont {
 		margin: 1rem 0;
-	}
+	} */
 </style>

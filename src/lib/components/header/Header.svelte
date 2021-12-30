@@ -6,7 +6,7 @@
 	import UserOptsNav from './UserOptsNav.svelte';
 </script>
 
-<header>
+<header class="flex">
 	<Logo />
 	<Nav />
 	<QuickSearch />
@@ -20,11 +20,7 @@
 		width: 100%;
 		height: var(--header-height);
 		padding: 0 10rem;
-		border-bottom: 1px solid var(--txt__lt-main);
 		background-color: var(--clr__dk-main);
-		color: var(--txt__lt-main);
-		display: flex;
-		gap: 2rem;
-		place-items: center;
+		color: var(--clr__lt-main);
 	}
 </style>

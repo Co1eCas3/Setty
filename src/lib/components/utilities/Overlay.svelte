@@ -33,8 +33,8 @@
 		/* padding-top: 4rem; */
 		border-radius: 12px;
 		background-color: var(--clr__dk-main);
-		box-shadow: 0 0 6px var(--clr__dk-main), 0 0 6px var(--txt__lt-main);
-		color: var(--txt__lt-main);
+		box-shadow: 0 0 6px var(--clr__dk-main), 0 0 6px var(--clr__lt-main);
+		color: var(--clr__lt-main);
 		font-size: 1.5rem;
 		display: flex;
 		flex-direction: column;
@@ -48,7 +48,7 @@
 		right: 1em;
 		width: 2em;
 		aspect-ratio: 1;
-		background-color: var(--txt__lt-dim);
+		background-color: var(--clr__lt-dim);
 		border-radius: 50%;
 		display: flex;
 		justify-content: center;

@@ -58,8 +58,8 @@
 	];
 </script>
 
-<nav>
-	<ul>
+<nav class="flex">
+	<ul class="flex">
 		{#each links as link}
 			{#if link.show}
 				<NavItem {...link} />
@@ -71,18 +71,14 @@
 <style>
 	nav {
 		height: 100%;
-		flex-grow: 2;
 		font-size: 1.5rem;
-		display: flex;
+		flex-grow: 2;
 		justify-content: flex-end;
 	}
 
 	ul {
 		width: min-content;
 		height: 100%;
-		display: flex;
-		gap: 2em;
 		justify-content: flex-end;
-		place-items: center;
 	}
 </style>

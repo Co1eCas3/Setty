@@ -2,52 +2,64 @@
 	import isEmail from 'validator/lib/isEmail';
 	import { firebase } from '$lib/stores/firebase';
 
+	import * as validate from '../../utils/validate';
+
+	import ValidatedInput from '../utilities/ValidatedInput.svelte';
+	import Loader from '../utilities/Loader.svelte';
+
 	export let waiting = false;
 
 	let email = '';
-	let thereWasAnError = false;
+	let emailIsErred = false;
+	let sendError = false;
 	let linkSent = false;
-	let doValidate = false;
 
-	$: formMessage = thereWasAnError
-		? 'Uh-oh! Appears there was a problem, please try again'
-		: 'Passwordless login!';
-
-	$: validationError = (doValidate && isEmail(email) && "That email doesn't look right..") || '';
+	$: formHeaderMessage = '';
+	$: {
+		if (waiting) formHeaderMessage = 'Sending link...';
+		else if (linkSent) formHeaderMessage = 'Link is on the way!';
+		else if (sendError) formHeaderMessage = 'Oops! Appears there was an error... Try again?';
+		else formHeaderMessage = 'Passwordless login!';
+	}
 
 	async function sendLink() {
-		if (!isEmail(email)) {
-			doValidate = true;
-			return;
-		}
-
-		doValidate = false;
 		waiting = true;
 		linkSent = await firebase.sendEmail(email);
 
-		if (!linkSent) thereWasAnError = true;
+		if (!linkSent) sendError = true;
 		waiting = false;
 	}
 </script>
 
-<form class:validationError on:submit|preventDefault={sendLink}>
-	{#if linkSent}
-		<h3>Link is on the way!</h3>
-	{:else}
-		<h3>{formMessage}</h3>
-		<div class="validation-cont">
-			<input type="email" placeholder="you@email.com" bind:value={email} />
-			<small>{validationError}</small>
-		</div>
-		<button type="submit">SEND LINK</button>
+<form class="flex stack" on:submit|preventDefault={sendLink}>
+	<h3>{formHeaderMessage}</h3>
+
+	{#if waiting}
+		<Loader />
+	{:else if (!waiting && !linkSent) || sendError}
+		<ValidatedInput
+			type="email"
+			placeholder="you@email.com"
+			require={true}
+			bind:value={email}
+			validationFn={validate.email}
+			bind:isErred={emailIsErred}
+			validateOn={['change', 'input']}
+		/>
+
+		<button
+			type="submit"
+			disabled={!email || emailIsErred}
+			class="flex trans text__dim-accent underline"
+		>
+			SEND LINK
+		</button>
 	{/if}
 </form>
 
 <style>
 	form {
-		display: flex;
-		flex-direction: column;
-		place-items: center;
+		margin: 1rem 0;
 		gap: 1rem;
 	}
 
@@ -55,53 +67,13 @@
 		width: 100%;
 	}
 
-	.validation-cont {
-		margin-bottom: 0.5rem;
-		display: flex;
-		flex-direction: column;
-	}
-
-	input {
-		padding: 0.5rem 1ch;
-		border: none;
-		border-radius: 7px;
-		background-color: var(--clr__lt-dim);
-		color: var(--clr__lt-main);
-		font-size: 1.25rem;
-	}
-
-	small {
-		margin: 0.25rem 0;
-		font-size: 0.6rem;
-	}
-
 	button {
-		position: relative;
+		/* position: relative;
 		border: none;
 		background-color: transparent;
 		font-size: 1.25rem;
 		color: inherit;
 		cursor: pointer;
-		transition: color 0.2s linear;
-	}
-
-	button::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background: radial-gradient(circle, rgba(221, 222, 238, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
-		opacity: 0;
-		transition: opacity 0.2s linear;
-	}
-
-	button:hover {
-		color: var(--clr__accent);
-	}
-
-	button::before:hover {
-		opacity: 1;
+		transition: color 0.2s linear; */
 	}
 </style>

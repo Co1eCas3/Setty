@@ -63,6 +63,7 @@
 
 	input {
 		font-size: inherit;
+		background-color: var(--clr__dk-layer-low);
 	}
 
 	small {

@@ -103,13 +103,24 @@ button:disabled {
   transition-timing-function: linear;
 }
 
-.text__dim-bright, .text__dim-bright:visited {
-  color: var(--clr__lt-half) !important;
+.text__dim-bright, .text__dim-accent {
   transition-property: color;
 }
 
+.text__dim-bright, .text__dim-bright:visited {
+  color: var(--clr__lt-half);
+}
+
 .text__dim-bright:hover, .text__dim-bright:hover:visited {
-  color: var(--clr__lt-main) !important;
+  color: var(--clr__lt-main);
+}
+
+.text__dim-accent {
+  color: var(--clr__lt-half);
+}
+
+.text__dim-accent:hover:active {
+  color: var(--clr__accent);
 }
 
 .underline::after {

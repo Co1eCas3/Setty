@@ -10,7 +10,7 @@
 	$: waiting = !$firebase.statusKnown || !$userReady;
 </script>
 
-<div class="text__dim-bright">
+<div>
 	{#if waiting}
 		<div class="loader-cont">
 			<Loader />

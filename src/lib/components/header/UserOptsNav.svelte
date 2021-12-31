@@ -1,22 +1,44 @@
 <script>
+	import { afterUpdate } from 'svelte';
+
 	import { page } from '$app/stores';
 	import { user } from '$lib/stores/user';
 	import { urlMaker } from '$lib/utils/helpers';
 
 	import Auth from './Auth.svelte';
 
-	let menuOpen = true;
+	let menuOpen = false;
+	let menuEl, iconEl;
 	$: includeProfile = !!$user && !!$page.params.band;
+
+	afterUpdate(() => {
+		if (menuOpen) {
+			iconEl.removeEventListener('click', handleOpenMenu);
+			window.addEventListener('click', handleCloseMenu);
+		} else {
+			window.removeEventListener('click', handleCloseMenu);
+			iconEl.addEventListener('click', handleOpenMenu);
+		}
+	});
+
+	function handleOpenMenu(e) {
+		e.stopPropagation();
+		menuOpen = true;
+	}
+
+	function handleCloseMenu({ path }) {
+		if (!path.includes(menuEl)) menuOpen = false;
+	}
 </script>
 
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-<nav on:mouseover={() => (menuOpen = true)} on:mouseleave={() => (menuOpen = false)}>
-	<div class="icon-cont flex stack round trans border-fill">
+<nav>
+	<div bind:this={iconEl} class="icon-cont flex stack round trans border-fill">
 		<div class={'icono-user'} />
 	</div>
 
 	{#if menuOpen}
-		<ul>
+		<ul bind:this={menuEl}>
 			{#if includeProfile}
 				<li>
 					<a href={urlMaker({ path: '/user' })}>Profile</a>

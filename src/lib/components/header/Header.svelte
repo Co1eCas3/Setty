@@ -10,7 +10,7 @@
 	<Logo />
 	<Nav />
 	<QuickSearch />
-	{#if $page.path !== '/login'}
+	{#if $page.url.pathname !== '/login'}
 		<UserOptsNav />
 	{/if}
 </header>

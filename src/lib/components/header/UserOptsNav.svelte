@@ -1,47 +1,46 @@
 <script>
-	import { afterUpdate } from 'svelte';
-
 	import { page } from '$app/stores';
 	import { user } from '$lib/stores/user';
-	import { urlMaker } from '$lib/utils/helpers';
+	import * as siteMap from '$lib/utils/siteMap';
 
 	import Auth from './Auth.svelte';
 
 	let menuOpen = false;
-	let menuEl, iconEl;
 	$: includeProfile = !!$user && !!$page.params.band;
 
-	afterUpdate(() => {
-		if (menuOpen) {
-			iconEl.removeEventListener('click', handleOpenMenu);
-			window.addEventListener('click', handleCloseMenu);
-		} else {
-			window.removeEventListener('click', handleCloseMenu);
-			iconEl.addEventListener('click', handleOpenMenu);
-		}
-	});
-
-	function handleOpenMenu(e) {
-		e.stopPropagation();
+	function handleOpenMenu() {
+		if (menuOpen) return handleCloseMenu();
 		menuOpen = true;
+		document.body.addEventListener('click', handleCloseMenu);
 	}
 
-	function handleCloseMenu({ path }) {
-		if (!path.includes(menuEl)) menuOpen = false;
+	function handleCloseMenu() {
+		menuOpen = false;
+		document.body.removeEventListener('click', handleCloseMenu);
 	}
 </script>
 
-<!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <nav>
-	<div bind:this={iconEl} class="icon-cont flex stack round trans border-fill">
+	<!-- this click needs to be prevented from bubbling because -->
+	<!-- it adds a click listener to the body. w/out preventing -->
+	<!-- propapation, the click would be fired again once the event -->
+	<!-- reached the body, and would set off handleMenuClose -->
+	<!-- effect would be complete inability to open the menu -->
+	<div
+		on:click|stopPropagation={handleOpenMenu}
+		class="icon-cont flex stack round trans text__dim-bright"
+	>
 		<div class={'icono-user'} />
 	</div>
 
 	{#if menuOpen}
-		<ul bind:this={menuEl}>
+		<!-- empty click handler with stopPropagation in order to -->
+		<!-- prevent a click event in the menu from triggering close -->
+		<!-- handler attached to the body -->
+		<ul on:click|stopPropagation={() => null}>
 			{#if includeProfile}
 				<li>
-					<a href={urlMaker({ path: '/user' })}>Profile</a>
+					<a href={siteMap.userProfile}>Profile</a>
 				</li>
 			{/if}
 			<li>

@@ -40,7 +40,7 @@
 		<ValidatedInput
 			type="email"
 			placeholder="you@email.com"
-			require={true}
+			required={true}
 			bind:value={email}
 			validationFn={validate.email}
 			bind:isErred={emailIsErred}

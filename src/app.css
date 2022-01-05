@@ -17,7 +17,10 @@
   --clr__accent-half: rgba(217, 181, 38, .5);
   --clr__accent-dim: rgba(217, 181, 38, .1);
   
-
+  --transit__color-bg: var(--clr__dk-main);
+  --transit__color-layer: transparent;
+  --transit__color-accent: var(--clr__accent);
+  --transit__font-color: var(--clr__lt-main);
 }
 
 *, *::before, *::after {

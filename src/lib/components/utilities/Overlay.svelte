@@ -1,12 +1,10 @@
 <script>
-	export let cancelCb = null;
+	import * as siteMap from '../../utils/siteMap';
 </script>
 
 <section>
 	<div class="cont">
-		{#if cancelCb}
-			<div class="cancel" on:click={cancelCb}>X</div>
-		{/if}
+		<a href={siteMap.userBands} class="cancel">X</a>
 		<slot />
 	</div>
 </section>

@@ -7,10 +7,10 @@
 <aside>
 	<nav>
 		<ul>
-			<li class:active={$page.path.endsWith('account')}>
+			<li class:active={$page.url.pathname.endsWith('account')}>
 				<a href={siteMap.userAccount}>Account</a>
 			</li>
-			<li class:active={$page.path.endsWith('bands')}>
+			<li class:active={$page.url.pathname.endsWith('bands')}>
 				<a href={siteMap.userBands}>Bands</a>
 			</li>
 		</ul>

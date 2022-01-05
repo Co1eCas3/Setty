@@ -10,8 +10,8 @@
     "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
   },
   "devDependencies": {
-    "@sveltejs/adapter-auto": "^1.0.0-next.4",
-    "@sveltejs/kit": "^1.0.0-next.202",
+    "@sveltejs/adapter-auto": "^1.0.0-next.7",
+    "@sveltejs/kit": "^1.0.0-next.215",
     "prettier": "^2.4.1",
     "prettier-plugin-svelte": "^2.4.0",
     "prisma": "^3.7.0",
@@ -26,7 +26,7 @@
     "env-cmd": "^10.1.0",
     "firebase": "^9.6.1",
     "jsonwebtoken": "^8.5.1",
-    "open-props": "^1.0.14",
+    "open-props": "^1.1.0",
     "uuid": "^8.3.2",
     "validator": "^13.7.0"
   }

@@ -18,25 +18,19 @@
 			show: showUserLinks,
 			title: 'Bands',
 			href: siteMap.userBands,
-			next: [
-				{
-					show: true,
-					title: 'New Band',
-					href: siteMap.newBand
-				}
-			]
-			// $user &&
-			// $user.bands
-			// 	.map((band) => ({
-			// 		show: true,
-			// 		title: band.name,
-			// 		href: siteMap.band(band.webSafeName)
-			// 	}))
-			// 	.concat({
-			// 		show: true,
-			// 		title: 'New Band',
-			// 		href: '/user#bands?add=true'
-			// 	})
+			next:
+				$user &&
+				$user.bands
+					.map((band) => ({
+						show: true,
+						title: band.band.name,
+						href: siteMap.band(band.band.webSafeName)
+					}))
+					.concat({
+						show: true,
+						title: 'New Band',
+						href: siteMap.newBand
+					})
 		},
 		{
 			show: isBandPage,

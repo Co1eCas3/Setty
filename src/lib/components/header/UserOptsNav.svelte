@@ -26,11 +26,8 @@
 	<!-- propapation, the click would be fired again once the event -->
 	<!-- reached the body, and would set off handleMenuClose -->
 	<!-- effect would be complete inability to open the menu -->
-	<div
-		on:click|stopPropagation={handleOpenMenu}
-		class="icon-cont flex stack round trans text__dim-bright"
-	>
-		<div class={'icono-user'} />
+	<div on:click|stopPropagation={handleOpenMenu} class="icon-cont flex stack round" class:menuOpen>
+		<div class="icono-user" />
 	</div>
 
 	{#if menuOpen}
@@ -39,7 +36,7 @@
 		<!-- handler attached to the body -->
 		<ul on:click|stopPropagation={() => null}>
 			{#if includeProfile}
-				<li>
+				<li class="flex">
 					<a href={siteMap.userProfile}>Profile</a>
 				</li>
 			{/if}
@@ -56,16 +53,12 @@
 		height: 100%;
 		display: flex;
 		place-items: center;
-		cursor: pointer;
-	}
-
-	nav:hover > .border-fill::before {
-		transform: translateY(0);
 	}
 
 	ul {
 		position: absolute;
 		top: 100%;
+		z-index: 9999;
 		right: -1rem;
 		width: max-content;
 		background-color: var(--clr__dk-main);
@@ -75,17 +68,14 @@
 
 	li {
 		position: relative;
+		width: 100%;
 		min-width: 15ch;
 		min-height: calc(var(--header-height) / 1.6);
-		margin: 0 1.5rem;
-		border-bottom: 1px solid var(--clr__lt-half);
-		display: flex;
-		place-items: center;
+		border-bottom: 0.125rem solid var(--clr__lt-half);
+		justify-content: flex-start;
 	}
 
 	li::after {
-		content: '';
-		position: absolute;
 		left: 0;
 		right: 0;
 		bottom: 0;
@@ -96,7 +86,7 @@
 		transition: width 0.2s ease-out;
 	}
 
-	li:hover::after {
+	li:hover:not(:last-child)::after {
 		width: 100%;
 	}
 
@@ -114,12 +104,45 @@
 		position: relative;
 		width: 3.5rem;
 		aspect-ratio: 1;
-		overflow: hidden;
+		color: var(--clr__lt-half);
 		justify-content: center;
+		overflow: hidden;
+		transition: color 0.2s ease-out;
+		cursor: pointer;
+	}
+
+	.icon-cont::before,
+	.icon-cont::after {
+		width: 100%;
+		height: 100%;
+		margin: auto;
+	}
+
+	.icon-cont::before {
+		background: var(--clr__accent);
+		transform-origin: top;
+		transform: translateY(100%);
+		transition: transform 0.2s ease-out;
+	}
+
+	.icon-cont::after {
+		width: calc(100% - 0.125em);
+		height: calc(100% - 0.125em);
+		background: var(--clr__dk-layer-low);
+	}
+
+	.icon-cont:hover,
+	.menuOpen {
+		color: var(--clr__lt-main);
+	}
+
+	.menuOpen::before {
+		transform: translateY(0);
 	}
 
 	[class^='icono'] {
 		z-index: 2;
+		color: inherit;
 	}
 
 	.icono-user::before {

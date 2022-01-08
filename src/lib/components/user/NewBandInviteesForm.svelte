@@ -1,7 +1,7 @@
 <script>
 	import { getContext } from 'svelte';
 
-	import newBandKey from '$lib/utils/newBandContextKey';
+	import ctxKey from '$lib/utils/ctxKey';
 	import userRoleMap from '$lib/utils/userRoleMap';
 	import bandRoleMap from '$lib/utils/bandRoleMap';
 	import * as validate from '$lib/utils/validate';
@@ -11,7 +11,7 @@
 
 	export let isReady;
 
-	const newBand = getContext(newBandKey);
+	const newBand = getContext(ctxKey);
 
 	if (!$newBand.band.users.length) addInvitee();
 

@@ -12,8 +12,10 @@
 
 <div class="auth-only-page">
 	{#if !$userReady}
-		<Loader />
-	{:else}
+		<div class="loader-cont flex">
+			<Loader --color="var(--clr__dk-main)" />
+		</div>
+	{:else if $user}
 		<slot />
 	{/if}
 </div>
@@ -23,5 +25,10 @@
 		position: relative;
 		min-width: 100%;
 		min-height: calc(100vh - var(--header-height));
+	}
+
+	.loader-cont {
+		width: 100%;
+		height: 100%;
 	}
 </style>

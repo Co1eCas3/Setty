@@ -2,7 +2,7 @@
 	import { getContext } from 'svelte';
 
 	import * as validate from '$lib/utils/validate';
-	import newBandKey from '../../utils/newBandContextKey';
+	import ctxKey from '../../utils/ctxKey';
 	import bandRoleMap from '$lib/utils/bandRoleMap';
 	import { makeBandNameWebSafe } from '$lib/utils/helpers';
 
@@ -12,7 +12,7 @@
 
 	export let isReady = false;
 
-	const newBand = getContext(newBandKey);
+	const newBand = getContext(ctxKey);
 	let hasManuallyEditedWSN, nameIsErred, WSNIsErred;
 
 	$: isReady = !!$newBand.band.name && !nameIsErred && !!$newBand.band.webSafeName && !WSNIsErred;

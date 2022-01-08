@@ -48,6 +48,11 @@
 			show: isBandPage,
 			title: 'Repertoire',
 			href: siteMap.repertoire($page.params.band)
+		},
+		{
+			show: isBandPage,
+			title: 'Manage',
+			href: siteMap.bandManage($page.params.band)
 		}
 	];
 </script>

@@ -31,7 +31,7 @@
 		margin: calc(var(--_height) / 2) auto;
 		position: relative;
 		background: currentColor;
-		color: #fff;
+		color: var(--color, var(--clr__lt-main));
 		box-sizing: border-box;
 		animation: animloader 0.3s 0.3s linear infinite alternate;
 	}

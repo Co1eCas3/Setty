@@ -71,6 +71,7 @@ function createAuthStore() {
         console.log('sign in error: ', error);
         return false;
       }
+    } else {
     }
   }
 
@@ -111,7 +112,7 @@ function checkLink() {
   }
 
   const savedHref = getLinkFromHistory();
-  return isSignInWithEmailLink(getAuth(fbApp), savedHref) && savedHref;
+  return isSignInWithEmailLink(getAuth(fbApp), (savedHref || '')) && savedHref;
 }
 
 function getLinkFromHistory() {

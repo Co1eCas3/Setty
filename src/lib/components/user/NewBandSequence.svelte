@@ -5,7 +5,7 @@
 	import deepcopy from 'deepcopy';
 
 	import { user } from '../../stores/user';
-	import newBandKey from '../../utils/newBandContextKey.js';
+	import ctxKey from '../../utils/ctxKey.js';
 	import { useToken } from '$lib/utils/token.js';
 	import { urlMaker } from '$lib/utils/helpers.js';
 
@@ -26,7 +26,7 @@
 		}
 	});
 
-	setContext(newBandKey, newBandStore);
+	setContext(ctxKey, newBandStore);
 
 	let curStep = 0;
 	const steps = [NewBandInfoForm, NewBandInviteesForm, CreateBandFailed];
@@ -50,7 +50,6 @@
 			[]
 		);
 
-		// console.log(copyForSend);
 		createBand(copyForSend);
 	}
 

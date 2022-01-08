@@ -1,31 +1,38 @@
 <script>
-	import { firebase } from '$lib/stores/firebase';
 	import { user } from '$lib/stores/user';
 	import { userReady } from '$lib/stores/userReady';
 
 	import LoginForm from '../header/LoginForm.svelte';
 	import Loader from '../utilities/Loader.svelte';
 	import LogoutForm from './LogoutForm.svelte';
-
-	$: waiting = !$firebase.statusKnown || !$userReady;
 </script>
 
-<div>
-	{#if waiting}
-		<div class="loader-cont">
-			<Loader />
+<div class="auth-cont">
+	{#if !$userReady}
+		<div class="loader-cont flex">
+			<Loader --height="2rem" />
 		</div>
 	{/if}
 
 	{#if $user}
-		<LogoutForm bind:waiting />
+		<LogoutForm />
 	{:else}
-		<LoginForm bind:waiting />
+		<LoginForm />
 	{/if}
 </div>
 
 <style>
-	/* .auth-cont {
-		margin: 1rem 0;
-	} */
+	.auth-cont {
+		position: relative;
+		min-height: calc(var(--header-height) / 1.6);
+	}
+
+	.loader-cont {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: var(--clr__dk-layer-low);
+	}
 </style>

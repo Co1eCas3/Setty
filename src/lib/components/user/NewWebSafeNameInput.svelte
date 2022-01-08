@@ -2,7 +2,7 @@
 	import { getContext } from 'svelte';
 	import * as validator from 'validator';
 
-	import newBandKey from '../../utils/newBandContextKey';
+	import ctxKey from '../../utils/ctxKey';
 	import { makeBandNameWebSafe, urlMaker, debounceAsync } from '$lib/utils/helpers';
 
 	import Loader from '../utilities/Loader.svelte';
@@ -10,7 +10,7 @@
 	export let hasManuallyEditedWSN = false;
 	export let WSNIsErred = false;
 
-	const newBand = getContext(newBandKey);
+	const newBand = getContext(ctxKey);
 
 	let attemptedToUseIllegalChar = false;
 	let illegalCharUsedTimer = null;

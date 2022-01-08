@@ -3,9 +3,11 @@
 
 	import { user } from '$lib/stores/user';
 	import { userReady } from '$lib/stores/userReady';
+	import * as siteMap from '../../utils/siteMap';
+
 	import Loader from './Loader.svelte';
 
-	$: if ($userReady && !$user) goto('/login');
+	$: if ($userReady && !$user) goto(siteMap.login);
 </script>
 
 <div class="auth-only-page">

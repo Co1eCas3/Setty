@@ -54,6 +54,8 @@
 		createBand(copyForSend);
 	}
 
+	// TODO: a 'created' message of some kind
+	// TODO: send firebase emails (silent & and an app-wide message? wait til complete?)
 	async function createBand(newBand) {
 		const url = urlMaker({ path: 'api/bands/create' });
 		const res = await useToken(url, { method: 'POST', body: JSON.stringify(newBand) });

@@ -7,10 +7,9 @@
 	import UserBandsListItem from '$lib/components/user/UserBandsListItem.svelte';
 	import Overlay from '$lib/components/utilities/Overlay.svelte';
 	import NewBandSequence from '$lib/components/user/NewBandSequence.svelte';
-	import { goto } from '$app/navigation';
 	import { browser } from '$app/env';
 
-	// THIS IS NOT WORKING ($page.url.hash = '', not causing store updates on change)
+	// TODO: THIS IS NOT WORKING ($page.url.hash = '', not causing store updates on change)
 	$: browser && console.log(window.location);
 	$: console.log('logging $page.url: ', $page.url);
 </script>
@@ -19,10 +18,12 @@
 	<h2>Your bands</h2>
 
 	<ul>
-		<li>
-			<a href={siteMap.newBand} on:click={({ target }) => console.log(target)}>Add a new band</a>
+		<li class="add-new">
+			<a href={siteMap.newBand} on:click={({ target }) => console.log(target)}>
+				<h4>Add a new band</h4>
+			</a>
 		</li>
-		{#each $user.bands as band}
+		{#each $user.bands as { band }}
 			<UserBandsListItem {...band} />
 		{/each}
 	</ul>
@@ -34,3 +35,8 @@
 		</Overlay>
 	{/if}
 </main>
+
+<style>
+	.add-new {
+	}
+</style>

@@ -14,27 +14,25 @@
 	$: console.log('logging $page.url: ', $page.url);
 </script>
 
-<main>
-	<h2>Your bands</h2>
+<h2>Your bands</h2>
 
-	<ul>
-		<li class="add-new">
-			<a href={siteMap.newBand} on:click={({ target }) => console.log(target)}>
-				<h4>Add a new band</h4>
-			</a>
-		</li>
-		{#each $user.bands as { band }}
-			<UserBandsListItem {...band} />
-		{/each}
-	</ul>
+<ul>
+	<li class="add-new">
+		<a href={siteMap.newBand} on:click={({ target }) => console.log(target)}>
+			<h4>Add a new band</h4>
+		</a>
+	</li>
+	{#each $user.bands as { band }}
+		<UserBandsListItem {...band} />
+	{/each}
+</ul>
 
-	{#if $page.url.hash}
-		{console.log('have a hash')}
-		<Overlay>
-			<NewBandSequence />
-		</Overlay>
-	{/if}
-</main>
+{#if $page.url.hash}
+	{console.log('have a hash')}
+	<Overlay>
+		<NewBandSequence />
+	</Overlay>
+{/if}
 
 <style>
 	.add-new {

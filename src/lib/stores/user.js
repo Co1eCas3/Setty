@@ -20,7 +20,7 @@ function createUserStore() {
     return () => unsubFirebase();
   })
 
-  const updateUserName = async newName => {
+  const updateUserName = newName => {
     return new Promise(async resolve => {
       const { id } = get(user);
       const url = urlMaker({ path: `/api/user/${id}` });

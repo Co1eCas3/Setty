@@ -21,6 +21,6 @@ export async function put(req) {
     return responses.success({ user: updatedUser });
   } catch (error) {
     console.log('update user error: ', error);
-    return responses.serverError();
+    return responses.serverError({ error: error.toString() });
   }
 }

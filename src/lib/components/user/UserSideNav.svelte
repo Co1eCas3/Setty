@@ -19,7 +19,7 @@
 
 <style>
 	aside {
-		flex-basis: 25%;
+		grid-area: user-nav;
 		font-size: 1.5rem;
 		color: var(--clr__dk-main);
 	}

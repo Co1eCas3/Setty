@@ -1,40 +1,57 @@
 <script>
-	import { onMount } from 'svelte';
-
 	import { user } from '$lib/stores/user';
 	import * as validate from '$lib/utils/validate';
 
 	import NewUserForm from '$lib/components/user/NewUserForm.svelte';
 	import ValidatedInput from '$lib/components/utilities/ValidatedInput.svelte';
+	import ToggleableEditInput from '$lib/components/utilities/ToggleableEditInput.svelte';
 
-	let hash, nameErr, emailErr;
+	let hash, isErred;
 
 	// TODO: get hash to init NewUserForm
 	// onMount(() => (hash = window.location.hash));
 </script>
 
-<main>
-	<h1>User Account</h1>
+<h1>Details</h1>
 
-	<form>
-		<!-- TODO -->
-		<!-- enable ability to submit individual inputs -->
+<form class="flex stack" on:submit|preventDefault>
+	<!-- TODO -->
+	<!-- enable ability to submit individual inputs -->
+
+	<ToggleableEditInput submitFn={user.updateUserName} validationErr={isErred}>
 		<ValidatedInput
 			type="text"
 			placeholder="Add your name"
-			bind:value={$user.name}
-			validateFn={validate.name}
-			bind:isErred={nameErr}
+			value={$user.name}
+			validationFn={validate.name}
+			let:inputErr
+			bind:isErred
 		/>
-		<ValidatedInput
-			type="email"
-			bind:value={$user.email}
-			validationFn={validate.email}
-			bind:isErred={emailErr}
-		/>
-	</form>
+	</ToggleableEditInput>
 
-	{#if !!hash}
-		<NewUserForm />
-	{/if}
-</main>
+	<b>{$user.email}</b>
+</form>
+
+{#if !!hash}
+	<NewUserForm />
+{/if}
+
+<style>
+	h1 {
+		width: 100%;
+		margin-bottom: 3rem;
+		box-shadow: var(--under-shadow);
+	}
+
+	form {
+		width: 60ch;
+		margin-left: 4rem;
+		place-items: flex-start;
+		font-size: var(--font-size-3);
+	}
+
+	b {
+		padding: 0.35rem 0.8rem;
+		font-weight: 400;
+	}
+</style>

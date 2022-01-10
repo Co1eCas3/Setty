@@ -59,11 +59,12 @@
 	div {
 		display: flex;
 		flex-direction: column;
+		font-size: inherit;
 	}
 
 	input {
-		font-size: inherit;
-		background-color: var(--clr__dk-layer-low);
+		background-color: inherit;
+		border: inherit;
 	}
 
 	small {

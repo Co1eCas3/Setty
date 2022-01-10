@@ -1,5 +1,4 @@
 import { urlMaker } from "./helpers";
-import { webSafeName } from "./validate";
 
 export const home = urlMaker({});
 export const login = urlMaker({ path: 'login' });

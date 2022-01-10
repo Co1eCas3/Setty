@@ -16,6 +16,10 @@
   --clr__accent: #d9b526;
   --clr__accent-half: rgba(217, 181, 38, .5);
   --clr__accent-dim: rgba(217, 181, 38, .1);
+  --clr__error: rgba(206, 59, 18);
+  --clr__success: rgb(45, 117, 0);
+
+  --under-shadow: 0 20px 4px -20px var(--clr__dk-main);
 }
 
 *, *::before, *::after {
@@ -43,6 +47,16 @@ body, #svelte {
   min-height: 100%;
 }
 
+#svelte {
+  background: linear-gradient(
+    90deg,
+    var(--clr__lt-almost) 0%,
+    #fff 20%,
+    #fff 80%,
+    var(--clr__lt-almost) 100%
+  );
+}
+
 h1, h2, h3, h4, h5, h6 {
   cursor: default;
 }
@@ -60,6 +74,7 @@ input, button {
   border: none;
   color: inherit;
   font-size: inherit;
+  letter-spacing: var(--font-letterspacing-4);
 }
 
 input:is([type=text], [type=email], [type=password], [type=search], [type=url]) {
@@ -95,4 +110,8 @@ button:disabled {
 
 .round, .round::before, .round::after {
   border-radius: 50%;
+}
+
+[class*=icono-] {
+  color: inherit;
 }

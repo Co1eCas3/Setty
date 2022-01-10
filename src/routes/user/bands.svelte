@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 
-	import { user } from '$lib/stores/user';
+	import { user } from '$lib/stores/auth';
 	import * as siteMap from '$lib/utils/siteMap';
 
 	import UserBandsListItem from '$lib/components/user/UserBandsListItem.svelte';

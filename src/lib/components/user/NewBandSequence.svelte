@@ -4,7 +4,7 @@
 	import isEmpty from 'validator/lib/isEmpty';
 	import deepcopy from 'deepcopy';
 
-	import { user } from '../../stores/user';
+	import { user } from '$lib/stores/auth';
 	import ctxKey from '../../utils/ctxKey.js';
 	import { useToken } from '$lib/utils/token.js';
 	import { urlMaker } from '$lib/utils/helpers.js';

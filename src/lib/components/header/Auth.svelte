@@ -1,6 +1,5 @@
 <script>
-	import { user } from '$lib/stores/user';
-	import { userReady } from '$lib/stores/userReady';
+	import { user, userReady } from '$lib/stores/auth';
 
 	import LoginForm from '../header/LoginForm.svelte';
 	import Loader from '../utilities/Loader.svelte';

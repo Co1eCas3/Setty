@@ -3,9 +3,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 
-	import { firebase } from '$lib/stores/firebase';
-	import { user } from '$lib/stores/user';
-	import { userReady } from '$lib/stores/userReady';
+	import { firebase, user, userReady } from '$lib/stores/auth';
 	import * as siteMap from '$lib/utils/siteMap';
 
 	let email = '';

@@ -1,5 +1,5 @@
 <script>
-	import { firebase } from '$lib/stores/firebase';
+	import { firebase } from '$lib/stores/auth';
 
 	let btnTxt = 'SIGN OUT';
 

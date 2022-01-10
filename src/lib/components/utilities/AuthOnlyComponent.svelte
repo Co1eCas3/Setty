@@ -1,6 +1,6 @@
 <script>
-	import { userReady } from '../../stores/userReady';
-	import { user } from '../../stores/user';
+	import { userReady } from '$lib/stores/auth';
+	import { user } from '$lib/stores/auth';
 
 	export let requires;
 

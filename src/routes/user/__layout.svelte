@@ -1,8 +1,8 @@
 <script>
 	import { goto } from '$app/navigation';
 
-	import { user } from '$lib/stores/user';
-	import { userReady } from '$lib/stores/userReady';
+	import { user } from '$lib/stores/auth';
+	import { userReady } from '$lib/stores/auth';
 	import * as siteMap from '$lib/utils/siteMap';
 
 	import Loader from '$lib/components/utilities/Loader.svelte';

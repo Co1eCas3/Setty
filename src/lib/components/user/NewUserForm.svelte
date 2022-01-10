@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import validator from 'validator';
 
-	import { user } from '$lib/stores/user';
+	import { user } from '$lib/stores/auth';
 	import * as siteMap from '$lib/utils/siteMap';
 	import Overlay from '../utilities/Overlay.svelte';
 

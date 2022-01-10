@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import { user } from '../../stores/user';
+	import { user } from '../../stores/auth';
 	import * as siteMap from '../../utils/siteMap';
 
 	import NavItem from './NavItem.svelte';

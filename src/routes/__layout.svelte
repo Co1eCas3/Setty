@@ -1,8 +1,7 @@
 <script>
 	import '../app.css';
 	import { browser } from '$app/env';
-	import { firebase } from '$lib/stores/firebase';
-	import { user } from '$lib/stores/user';
+	import { firebase, user } from '$lib/stores/auth';
 
 	$: if (browser) console.log('firebase: ', $firebase);
 	$: if (browser) console.log('user: ', $user);

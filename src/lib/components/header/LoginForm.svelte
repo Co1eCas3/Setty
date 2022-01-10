@@ -1,6 +1,6 @@
 <script>
 	import isEmail from 'validator/lib/isEmail';
-	import { firebase } from '$lib/stores/firebase';
+	import { firebase } from '$lib/stores/auth';
 
 	import * as validate from '../../utils/validate';
 

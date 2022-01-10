@@ -1,5 +1,5 @@
 <script>
-	import { user } from '$lib/stores/user';
+	import { user } from '$lib/stores/auth';
 	import * as validate from '$lib/utils/validate';
 
 	import NewUserForm from '$lib/components/user/NewUserForm.svelte';

@@ -9,34 +9,36 @@
 	export let validateOn = 'input';
 	export let isErred;
 
-	let el;
+	let el,
+		doValidate = false;
 
 	$: validationMessage = validationFn(value, el);
-	$: isErred = !isEmpty(validationMessage);
+	$: isErred = doValidate && !isEmpty(validationMessage);
 
 	function validateOnHandler(inp, _value) {
 		inp.value = _value;
 
 		let multipleOns = Array.isArray(validateOn),
 			curOnInd = 0,
-			handler;
+			doValidateHandler;
 
 		const updateValue = () => (value = inp.value = valueFn(inp.value));
+		inp.addEventListener('input', updateValue);
 
 		if (multipleOns) {
-			handler = () => {
-				updateValue();
+			doValidateHandler = () => {
+				doValidate = true;
 
 				if (validateOn[curOnInd + 1]) {
-					inp.removeEventListener(validateOn[curOnInd], handler);
-					inp.addEventListener(validateOn[++curOnInd], handler);
+					inp.removeEventListener(validateOn[curOnInd], doValidateHandler);
+					inp.addEventListener(validateOn[++curOnInd], doValidateHandler);
 				}
 			};
 
-			inp.addEventListener(validateOn[0], handler);
+			inp.addEventListener(validateOn[0], doValidateHandler);
 		} else {
-			handler = updateValue;
-			inp.addEventListener(validateOn, handler);
+			doValidateHandler = updateValue;
+			inp.addEventListener(validateOn, doValidateHandler);
 		}
 
 		return {
@@ -44,7 +46,8 @@
 				inp.value = value;
 			},
 			destroy() {
-				inp.removeEventListener(multipleOns ? validateOn[curOnInd] : validateOn, handler);
+				inp.removeEventListener('input', updateValue);
+				inp.removeEventListener(multipleOns ? validateOn[curOnInd] : validateOn, doValidateHandler);
 			}
 		};
 	}

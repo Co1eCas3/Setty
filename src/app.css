@@ -79,7 +79,12 @@ input, button {
 
 input:is([type=text], [type=email], [type=password], [type=search], [type=url]) {
   padding: .35em .8em;
-  border-radius: 7px;
+  border-radius: 0 0 0 7px;
+}
+
+input:focus, input:focus-visible {
+  outline: none;
+  border-bottom: 1px solid var(--clr__lt-main);
 }
 
 button {
@@ -114,4 +119,218 @@ button:disabled {
 
 [class*=icono-] {
   color: inherit;
+}
+
+.transit {
+  position: relative;
+  z-index: 1;
+  --transit__front: var(--clr__dk-main);
+  --transit__layer: var(--clr__dk-layer-low);
+  --transit__back: transparent;
+  --transit__pop: var(--clr__accent);
+  --transit__start: var(--clr__dk-half);
+  --transit__end: var(--clr__dk-main);
+  --text-start: var(--clr__dk-half);
+  --text-end: var(--clr__dk-main);
+}
+
+.transit * {
+  z-index: 1;
+}
+
+.transit,
+.transit::before,
+.transit::after,
+.transit * {
+  transition-duration:  0.2s;
+  transition-timing-function: ease-out;
+  transition-delay: 0s;
+}
+
+.transit::before,
+.transit::after {
+  position: absolute;
+  content: "";
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+}
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = MODIFIERS =  */
+.b-t,
+.t-b {
+  --transform-end: translateY(0);
+}
+
+.b-t {
+  --transform-start: translateY(100%);
+}
+
+.t-b {
+  --transform-start: translateY(-100%);
+}
+
+.l-r,
+.r-l {
+  --transform-end: translateX(0);
+}
+
+.l-r {
+  --transform-start: translateX(-100%);
+}
+
+.r-l {
+  --transform-start: translateX(100%);
+}
+
+.tl-br,
+.tr-bl,
+.bl-tr,
+.br-tl {
+  --transform-end: translate(0%, 0%);
+}
+
+.tl-br {
+  --transform-start: translate(-100%, -100%);
+}
+
+.tr-bl {
+  --transform-start: translate(100%, -100%);
+}
+
+.bl-tr {
+  --transform-start: translate(-100%, 100%);
+}
+
+.br-tl {
+  --transform-start: translate(100%, 100%);
+}
+
+.m-o__hor {
+  --transform-start: scaleX(0);
+  --transform-end: scaleX(1);
+}
+
+.m-o__ver {
+  --transform-start: scaleY(0);
+  --transform-end: scaleY(1);
+}
+
+.m-o__rad {
+  --transform-start: scale(0);
+  --transform-end: scale(1);
+}
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = END MODIFIERS =  */
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = BORDER FILL =  */
+.border-fill {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.border-fill::before {
+  background-color: var(--clr__pop);
+  transform-origin: top left;
+  transform: var(--transform-start);
+  transition-property: transform;
+}
+
+.border-fill::after {
+  width: calc(100% - 0.25em) !important;
+  height: calc(100% - 0.25em) !important;
+  background-color: var(--clr__layer);
+}
+
+.border-fill.hover:hover::before,
+.border-fill.click::before {
+  transform: var(--transform-end);
+}
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = END BORDER FILL =  */
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = FADE =  */
+.fade {
+  transition-property: opacity;
+  opacity: 0.5;
+}
+
+.fade::after {
+  top: 0;
+  left: 0;
+}
+
+.fade.hover:hover,
+.fade.click {
+  opacity: 1;
+}
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = END FADE =  */
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = TEXT COLOR =  */
+.text-color,
+.text-color * {
+  transition-property: color;
+  color: var(--text-start);
+}
+
+.text-color.hover:hover,
+.text-color.hover:hover *,
+.text-color.click,
+.text-color.click * {
+  color: var(--text-end);
+}
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = END TEXT COLOR =  */
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = BG FILL =  */
+
+.bg-fill {
+  overflow: hidden;
+}
+
+.bg-fill::after {
+  top: 0;
+  left: 0;
+  background-color: var(--transit__back);
+}
+
+.bg-fill::before{
+  top: 0;
+  left: 0;
+  background-color: var(--transit__pop);
+  transform: var(--transform-start);
+  transition-property: transform;
+}
+
+.bg-fill.hover:hover::before,
+.bg-fill.click::before {
+  transform: var(--transform-end);
+}
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = END BG FILL =  */
+
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = UNDERLINE =  */
+
+.underline {
+  overflow: hidden;
+}
+
+.underline::after {
+  top: 0;
+  left: 0;
+}
+
+.underline::after {
+  border-bottom: 0.125em solid var(--__color-ter);
+  transition-property: transform;
+  transform: var(--transform-start);
+}
+
+.underline.hover:hover::after,
+.underline.click::after {
+  transform: var(--transform-end);
 }

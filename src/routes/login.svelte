@@ -1,148 +1,109 @@
 <script>
-	import isEmail from 'validator/lib/isEmail';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import isEmpty from 'validator/lib/isEmpty';
 
 	import { firebase, user, userReady } from '$lib/stores/auth';
+	import * as validate from '$lib/utils/validate';
 	import * as siteMap from '$lib/utils/siteMap';
 
-	let email = '';
-	let sendingLink = false,
-		signingIn = false,
-		linkSent = false,
-		thereWasAnError = false;
+	import WaitForIt from '$lib/components/utilities/WaitForIt.svelte';
+	import ValidatedInput from '$lib/components/utilities/ValidatedInput.svelte';
+	import Loader from '$lib/components/utilities/Loader.svelte';
 
-	$: btnTxt = $firebase.needEmailAgain ? 'SIGN IN' : 'SEND LINK';
-	$: neededMethod = $firebase.needEmailAgain ? signIn : sendLink;
+	// $: if ($user) {
+	// 	if (!$user.name) goto(siteMap.newUser);
+	// 	else if ($user.bands.length === 1) goto(siteMap.band($user.bands[0].band.webSafeName));
+	// 	else goto(siteMap.userBands);
+	// }
 
-	let doValidate = false;
-	$: validationError = doValidate && !isEmail(email) ? "That email doesn't look right.." : '';
+	let waiter,
+		email,
+		emailErr = false,
+		submitErr = false,
+		submitSuccess = false,
+		headerMessage = 'Password-less login!';
+
+	const submitActions = ['sendEmail', 'signIn'];
+	const successMessages = ['Link is on the way!', 'Welcome!'];
+	const btnTexts = ['GET LINK', 'SIGN IN'];
+
+	$: {
+		if (submitErr) headerMessage = 'Oops! Ran into an error.. Try again?';
+		else if (submitSuccess) headerMessage = successMessages[+$firebase.needEmailAgain];
+		else if ($firebase.needEmailAgain)
+			headerMessage = 'Please enter your email to complete signin.';
+	}
+
+	async function submitAction() {
+		submitSuccess = await firebase[submitActions[+$firebase.needEmailAgain]](email);
+		submitErr = !submitSuccess;
+	}
 
 	onMount(() => firebase.signIn());
-
-	async function sendLink() {
-		if (!isEmail(email)) {
-			doValidate = true;
-			return;
-		}
-
-		sendingLink = true;
-		doValidate = false;
-
-		const success = await firebase.sendEmail(email);
-
-		if (!success) thereWasAnError = true;
-		else linkSent = true;
-		sendingLink = false;
-		thereWasAnError = false;
-	}
-
-	async function signIn() {
-		if (!isEmail(email)) {
-			doValidate = true;
-			return;
-		}
-
-		signingIn = true;
-		doValidate = false;
-
-		const success = await firebase.signIn(email);
-
-		if (!success) thereWasAnError = true;
-		signingIn = false;
-	}
-
-	$: if ($user) {
-		if (!$user.name) goto(siteMap.newUser);
-		else if ($user.bands.length === 1) goto(siteMap.band($user.bands[0].band.webSafeName));
-		else goto(siteMap.userBands);
-	}
 </script>
 
-<main>
-	{#if sendingLink}
-		<h3>Sending Link...</h3>
-	{:else if signingIn}
-		<h3>Getting your stuff..</h3>
-	{:else if linkSent}
-		<h3>Link is on the way!</h3>
-	{:else if !$firebase.statusKnown}
-		<h3>Checking login status</h3>
-	{:else if !$userReady}
-		<h3>Getting user data</h3>
-	{:else}
-		{#if $firebase.needEmailAgain}
-			<h3>Please enter your email to complete signin</h3>
-		{:else if thereWasAnError}
-			<h3>Uh-oh! Appears something went wrong, please try again</h3>
-		{:else}
-			<h3>Please enter your email to receive a login link</h3>
-		{/if}
+<main class="flex stack">
+	<WaitForIt waitOn={$userReady}>
+		<Loader slot="loader" />
+		<svelte:fragment slot="content">
+			<h3>{headerMessage}</h3>
 
-		<form on:submit|preventDefault={neededMethod} class:validationError={!!validationError}>
-			<div class="error-cont">
-				<input type="email" placeholder="you@email.com" bind:value={email} />
-				<span>{validationError}</span>
-			</div>
-			<button type="submit">{btnTxt}</button>
-		</form>
-	{/if}
+			<form class="flex stack" on:submit|preventDefault={waiter.prep(submitAction)}>
+				<WaitForIt bind:this={waiter}>
+					<Loader slot="loader" />
+
+					<svelte:fragment slot="content">
+						<ValidatedInput
+							type="email"
+							placeholder="you@email.com"
+							bind:value={email}
+							validationFn={validate.email}
+							bind:isErred={emailErr}
+							validateOn={['change', 'input']}
+						/>
+						<button
+							type="submit"
+							class="transit bg-fill text-color hover m-o__ver"
+							disabled={emailErr || !email}
+						>
+							{btnTexts[+$firebase.needEmailAgain]}
+						</button>
+					</svelte:fragment>
+				</WaitForIt>
+			</form>
+		</svelte:fragment>
+	</WaitForIt>
 </main>
 
 <style>
 	main {
-		min-width: 60ch;
-		height: fit-content;
-		margin-top: 5rem;
-		padding: 3rem;
-		background-color: var(--clr__dk-main);
-		color: var(--clr__lt-main);
-		font-size: 1.5rem;
-		text-align: center;
-		display: flex;
-		flex-direction: column;
+		min-height: calc(100vh - var(--header-height));
 		justify-content: center;
-		gap: 1.5rem;
+	}
+
+	h3 {
+		font-size: var(--font-size-fluid-2);
 	}
 
 	form {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5em;
+		padding: 2.5rem 5rem;
+		border-radius: 1em;
+		background-color: var(--clr__dk-main);
+		font-size: var(--font-size-fluid-1);
+		color: var(--clr__lt-almost);
 	}
 
-	input,
-	span,
-	button {
-		width: 100%;
-	}
-
-	input {
-		padding: 0.25em 0;
-		border: none;
-		border-radius: 7px;
-		background: var(--clr__lt-dim);
-		font-size: inherit;
-		color: inherit;
+	main :global(input) {
 		text-align: center;
 	}
 
-	span {
-		min-height: 0.6em;
-		font-size: 0.6em;
-	}
-
 	button {
-		border: none;
-		background: transparent;
-		padding: 0.25em 0;
-		font-size: inherit;
-		color: inherit;
-		cursor: pointer;
-		transition: color 0.1s linear;
-	}
-
-	button:hover {
-		color: var(--clr__accent);
+		padding: 0.5em 1em;
+		border-radius: 0.25em;
+		--transit__start: transparent;
+		--transit__end: var(--clr__accent--);
+		--text-start: var(--clr__lt-main);
+		--text-end: var(--clr__dk-main);
 	}
 </style>

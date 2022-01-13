@@ -47,9 +47,9 @@
 					type="email"
 					placeholder="bandmate@band.com"
 					bind:value={invitee.email}
-					validationFn={validate.email}
-					validateOn={['change', 'input']}
+					validation={validate.email}
 					bind:isErred={emailErrors[i]}
+					waitForBlur={true}
 				/>
 
 				<select bind:value={invitee.userRole}>

@@ -23,8 +23,7 @@
 			type="text"
 			placeholder="Add your name"
 			value={$user.name}
-			validationFn={validate.name}
-			let:inputErr
+			validation={validate.name}
 			bind:isErred
 		/>
 	</ToggleableEditInput>

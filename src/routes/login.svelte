@@ -17,8 +17,8 @@
 	// 	else goto(siteMap.userBands);
 	// }
 
-	let waiter,
-		email,
+	let email,
+		submitting = false,
 		emailErr = false,
 		submitErr = false,
 		submitSuccess = false,
@@ -44,36 +44,29 @@
 </script>
 
 <main class="flex stack">
-	<WaitForIt waitOn={$userReady}>
-		<Loader slot="loader" />
-		<svelte:fragment slot="content">
-			<h3>{headerMessage}</h3>
+	<h3>{headerMessage}</h3>
 
-			<form class="flex stack" on:submit|preventDefault={waiter.prep(submitAction)}>
-				<WaitForIt bind:this={waiter}>
-					<Loader slot="loader" />
-
-					<svelte:fragment slot="content">
-						<ValidatedInput
-							type="email"
-							placeholder="you@email.com"
-							bind:value={email}
-							validationFn={validate.email}
-							bind:isErred={emailErr}
-							validateOn={['change', 'input']}
-						/>
-						<button
-							type="submit"
-							class="transit bg-fill text-color hover m-o__ver"
-							disabled={emailErr || !email}
-						>
-							{btnTexts[+$firebase.needEmailAgain]}
-						</button>
-					</svelte:fragment>
-				</WaitForIt>
-			</form>
-		</svelte:fragment>
-	</WaitForIt>
+	<form
+		class="flex stack"
+		class:wait={!$userReady || submitting}
+		on:submit|preventDefault={submitAction}
+	>
+		<ValidatedInput
+			type="email"
+			placeholder="you@email.com"
+			bind:value={email}
+			validation={validate.email}
+			bind:isErred={emailErr}
+			waitForBlur={true}
+		/>
+		<button
+			type="submit"
+			class="transit bg-fill text-color hover m-o__ver"
+			disabled={emailErr || !email}
+		>
+			{btnTexts[+$firebase.needEmailAgain]}
+		</button>
+	</form>
 </main>
 
 <style>

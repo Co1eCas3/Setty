@@ -32,8 +32,8 @@
 		type="text"
 		placeholder="Enter you band's name"
 		bind:value={$newBand.band.name}
-		valueFn={autoGenWSN}
-		validationFn={validate.bandName}
+		transform={autoGenWSN}
+		validation={validate.bandName}
 		bind:isErred={nameIsErred}
 	/>
 

@@ -1,78 +1,66 @@
 <script>
-	import isEmpty from 'validator/lib/isEmpty';
+	import * as validator from 'validator';
+	const { isEmpty } = validator.default;
 
-	export let type = 'text';
-	export let placeholder = '';
 	export let value = '';
-	export let valueFn = (newVal) => newVal;
-	export let validationFn = () => '';
-	export let validateOn = 'input';
+	export let transform = (newVal) => newVal;
+	export let validation = () => '';
+	export let waitForBlur = false;
 	export let isErred;
 
-	let el,
-		doValidate = false;
+	let doValidate = false;
 
-	$: validationMessage = validationFn(value, el);
+	$: validationMessage = validation(value);
 	$: isErred = doValidate && !isEmpty(validationMessage);
 
-	function validateOnHandler(inp, _value) {
-		inp.value = _value;
+	function handle(inp) {
+		const handleValue = ({ target }) => (target.value = value = transform(target.value));
+		const handleDoValidate = () => {
+			console.log('blurred');
+			doValidate = true;
+			inp.removeEventListener('blur', handleDoValidate);
+		};
 
-		let multipleOns = Array.isArray(validateOn),
-			curOnInd = 0,
-			doValidateHandler;
-
-		const updateValue = () => (value = inp.value = valueFn(inp.value));
-		inp.addEventListener('input', updateValue);
-
-		if (multipleOns) {
-			doValidateHandler = () => {
-				doValidate = true;
-
-				if (validateOn[curOnInd + 1]) {
-					inp.removeEventListener(validateOn[curOnInd], doValidateHandler);
-					inp.addEventListener(validateOn[++curOnInd], doValidateHandler);
-				}
-			};
-
-			inp.addEventListener(validateOn[0], doValidateHandler);
-		} else {
-			doValidateHandler = updateValue;
-			inp.addEventListener(validateOn, doValidateHandler);
-		}
+		inp.addEventListener('input', handleValue);
+		if (waitForBlur) inp.addEventListener('blur', handleDoValidate);
 
 		return {
-			update(_value) {
-				inp.value = value;
-			},
 			destroy() {
-				inp.removeEventListener('input', updateValue);
-				inp.removeEventListener(multipleOns ? validateOn[curOnInd] : validateOn, doValidateHandler);
+				inp.removeEventListener('input', handleValue);
+				if (waitForBlur) inp.removeEventListener('blur', handleDoValidate);
 			}
 		};
 	}
 </script>
 
 <div>
-	<input {type} {placeholder} use:validateOnHandler={value} bind:this={el} />
-	<small>{validationMessage}</small>
+	<input {...$$restProps} use:handle />
+	<small>{doValidate ? validationMessage : ''}</small>
 </div>
 
 <style>
 	div {
+		position: relative;
+		width: 100%;
 		display: flex;
 		flex-direction: column;
-		font-size: inherit;
+		justify-content: inherit;
+		place-items: inherit;
 	}
 
 	input {
-		background-color: inherit;
-		border: inherit;
+		font-size: inherit;
+		letter-spacing: inherit;
+		margin-bottom: 1em;
 	}
 
 	small {
+		position: absolute;
+		bottom: 0.4em;
+		left: 0;
+		font-size: 0.6em;
+		line-height: 100%;
 		display: inline-block;
-		height: max(0.7em, 0.7rem);
-		font-size: max(0.7em, 0.7rem);
+		color: red;
 	}
 </style>

@@ -72,6 +72,7 @@ a, a:visited, a:-webkit-any-link {
 
 input, button {
   border: none;
+  background: inherit;
   color: inherit;
   font-size: inherit;
   letter-spacing: var(--font-letterspacing-4);
@@ -119,6 +120,38 @@ button:disabled {
 
 [class*=icono-] {
   color: inherit;
+}
+		
+.wait > * {
+  position: relative;
+  overflow: hidden;
+  z-index: 1 !important;
+}
+
+.wait > *::before, .wait > *::after {
+  content: '';
+  position: absolute;
+  top: 0 !important; left: 0 !important;
+  z-index: 2 !important;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 1 !important;
+  transform: initial !important;
+}
+
+.wait > *::before {
+  background-color: var(--clr__dk-layer-low) !important;
+}
+
+.wait > *::after {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, .7) 90%);
+  box-shadow: 6px 0 6px rgba(255, 255, 225, .7);
+  animation: waiting 3s linear infinite;
+}
+
+@keyframes waiting {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); } 
 }
 
 .transit {
@@ -245,8 +278,8 @@ button:disabled {
   background-color: var(--clr__layer);
 }
 
-.border-fill.hover:hover::before,
-.border-fill.click::before {
+.border-fill.hover:not(:disabled):hover::before,
+.border-fill.click:not(:disabled)::before {
   transform: var(--transform-end);
 }
 
@@ -263,8 +296,8 @@ button:disabled {
   left: 0;
 }
 
-.fade.hover:hover,
-.fade.click {
+.fade.hover:not(:disabled):hover,
+.fade.click:not(:disabled) {
   opacity: 1;
 }
 
@@ -277,10 +310,10 @@ button:disabled {
   color: var(--text-start);
 }
 
-.text-color.hover:hover,
-.text-color.hover:hover *,
-.text-color.click,
-.text-color.click * {
+.text-color.hover:not(:disabled):hover,
+.text-color.hover:not(:disabled):hover *,
+.text-color.click:not(:disabled),
+.text-color.click:not(:disabled) * {
   color: var(--text-end);
 }
 
@@ -306,8 +339,8 @@ button:disabled {
   transition-property: transform;
 }
 
-.bg-fill.hover:hover::before,
-.bg-fill.click::before {
+.bg-fill.hover:not(:disabled):hover::before,
+.bg-fill.click:not(:disabled)::before {
   transform: var(--transform-end);
 }
 
@@ -330,7 +363,7 @@ button:disabled {
   transform: var(--transform-start);
 }
 
-.underline.hover:hover::after,
-.underline.click::after {
+.underline.hover:not(:disabled):hover::after,
+.underline.click:not(:disabled)::after {
   transform: var(--transform-end);
 }

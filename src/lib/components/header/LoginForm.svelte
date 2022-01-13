@@ -33,11 +33,10 @@
 		<ValidatedInput
 			type="email"
 			placeholder="you@email.com"
-			required={true}
 			bind:value={email}
-			validationFn={validate.email}
+			validation={validate.email}
 			bind:isErred={emailIsErred}
-			validateOn={['change', 'input']}
+			waitForBlur={true}
 		/>
 
 		<button type="submit" disabled={!email || emailIsErred} class="flex"> SEND LINK </button>

@@ -28,6 +28,8 @@
 	const successMessages = ['Link is on the way!', 'Welcome!'];
 	const btnTexts = ['GET LINK', 'SIGN IN'];
 
+	$: console.log(emailErr || !email);
+
 	$: {
 		if (submitErr) headerMessage = 'Oops! Ran into an error.. Try again?';
 		else if (submitSuccess) headerMessage = successMessages[+$firebase.needEmailAgain];
@@ -35,9 +37,12 @@
 			headerMessage = 'Please enter your email to complete signin.';
 	}
 
-	async function submitAction() {
+	async function submitAction({ target }) {
+		console.log(target);
+		submitting = true;
 		submitSuccess = await firebase[submitActions[+$firebase.needEmailAgain]](email);
 		submitErr = !submitSuccess;
+		submitting = false;
 	}
 
 	onMount(() => firebase.signIn());
@@ -47,21 +52,23 @@
 	<h3>{headerMessage}</h3>
 
 	<form
+		novalidate
 		class="flex stack"
 		class:wait={!$userReady || submitting}
 		on:submit|preventDefault={submitAction}
 	>
 		<ValidatedInput
+			class="will-wait"
 			type="email"
 			placeholder="you@email.com"
 			bind:value={email}
 			validation={validate.email}
 			bind:isErred={emailErr}
-			waitForBlur={true}
+			showErrOnBlur={true}
 		/>
 		<button
 			type="submit"
-			class="transit bg-fill text-color hover m-o__ver"
+			class="will-wait transit bg-fill text-color hover m-o__ver"
 			disabled={emailErr || !email}
 		>
 			{btnTexts[+$firebase.needEmailAgain]}
@@ -80,6 +87,7 @@
 	}
 
 	form {
+		min-width: 45ch;
 		padding: 2.5rem 5rem;
 		border-radius: 1em;
 		background-color: var(--clr__dk-main);

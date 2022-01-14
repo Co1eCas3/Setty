@@ -5,29 +5,28 @@
 	export let value = '';
 	export let transform = (newVal) => newVal;
 	export let validation = () => '';
-	export let waitForBlur = false;
+	export let showErrOnBlur = false;
 	export let isErred;
 
-	let doValidate = false;
+	let showError = false;
 
 	$: validationMessage = validation(value);
-	$: isErred = doValidate && !isEmpty(validationMessage);
+	$: isErred = !isEmpty(validationMessage);
 
 	function handle(inp) {
 		const handleValue = ({ target }) => (target.value = value = transform(target.value));
 		const handleDoValidate = () => {
-			console.log('blurred');
-			doValidate = true;
+			showError = true;
 			inp.removeEventListener('blur', handleDoValidate);
 		};
 
 		inp.addEventListener('input', handleValue);
-		if (waitForBlur) inp.addEventListener('blur', handleDoValidate);
+		if (showErrOnBlur) inp.addEventListener('blur', handleDoValidate);
 
 		return {
 			destroy() {
 				inp.removeEventListener('input', handleValue);
-				if (waitForBlur) inp.removeEventListener('blur', handleDoValidate);
+				inp.removeEventListener('blur', handleDoValidate);
 			}
 		};
 	}
@@ -35,7 +34,7 @@
 
 <div>
 	<input {...$$restProps} use:handle />
-	<small>{doValidate ? validationMessage : ''}</small>
+	<small>{showError ? validationMessage : ''}</small>
 </div>
 
 <style>

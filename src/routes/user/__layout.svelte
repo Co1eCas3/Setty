@@ -8,11 +8,8 @@
 	import Loader from '$lib/components/utilities/Loader.svelte';
 	import UserSideNav from '$lib/components/user/UserSideNav.svelte';
 	import WaitForIt from '$lib/components/utilities/WaitForIt.svelte';
-
-	$: if ($userReady && !$user) {
-		console.log('routing');
-		goto(siteMap.login);
-	}
+	$: console.log($user);
+	$: if ($userReady && !$user) goto(siteMap.login);
 </script>
 
 <!-- {#if !$userReady} -->
@@ -25,7 +22,7 @@
 	<svelte:fragment slot="content">
 		<div id="user-layout">
 			<header class="flex">
-				<h1>Hi there{$user.name ? ` ${$user.name}!` : '!'}</h1>
+				<h1>Hi there{$user?.name ? ` ${$user.name}!` : '!'}</h1>
 			</header>
 			<UserSideNav />
 			<main>

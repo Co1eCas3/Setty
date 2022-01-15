@@ -32,7 +32,7 @@
 	}
 </script>
 
-<div>
+<div class={$$restProps.class}>
 	<input {...$$restProps} use:handle />
 	<small>{showError ? validationMessage : ''}</small>
 </div>

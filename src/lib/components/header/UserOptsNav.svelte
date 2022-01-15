@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import { user } from '$lib/stores/auth';
+	import { user, userReady } from '$lib/stores/auth';
 	import * as siteMap from '$lib/utils/siteMap';
 
 	import Auth from './Auth.svelte';
@@ -40,7 +40,7 @@
 					<a href={siteMap.userProfile}>Profile</a>
 				</li>
 			{/if}
-			<li>
+			<li class:wait={!$userReady}>
 				<Auth />
 			</li>
 		</ul>

@@ -22,13 +22,13 @@
 		<ValidatedInput
 			type="text"
 			placeholder="Add your name"
-			value={$user.name}
+			value={$user?.name || ''}
 			validation={validate.name}
 			bind:isErred
 		/>
 	</ToggleableEditInput>
 
-	<b>{$user.email}</b>
+	<b>{$user?.email}</b>
 </form>
 
 {#if !!hash}

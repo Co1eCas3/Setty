@@ -6,13 +6,7 @@
 	import LogoutForm from './LogoutForm.svelte';
 </script>
 
-<div class="auth-cont">
-	{#if !$userReady}
-		<div class="loader-cont flex">
-			<Loader --height="2rem" />
-		</div>
-	{/if}
-
+<div class="auth-cont will-wait">
 	{#if $user}
 		<LogoutForm />
 	{:else}

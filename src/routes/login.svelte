@@ -1,21 +1,19 @@
 <script>
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import isEmpty from 'validator/lib/isEmpty';
 
 	import { firebase, user, userReady } from '$lib/stores/auth';
 	import * as validate from '$lib/utils/validate';
 	import * as siteMap from '$lib/utils/siteMap';
 
-	import WaitForIt from '$lib/components/utilities/WaitForIt.svelte';
 	import ValidatedInput from '$lib/components/utilities/ValidatedInput.svelte';
 	import Loader from '$lib/components/utilities/Loader.svelte';
 
-	// $: if ($user) {
-	// 	if (!$user.name) goto(siteMap.newUser);
-	// 	else if ($user.bands.length === 1) goto(siteMap.band($user.bands[0].band.webSafeName));
-	// 	else goto(siteMap.userBands);
-	// }
+	$: if ($user) {
+		if (!$user.name) goto(siteMap.newUser);
+		else if ($user.bands.length === 1) goto(siteMap.band($user.bands[0].band.webSafeName));
+		else goto(siteMap.userBands);
+	}
 
 	let email,
 		submitting = false,
@@ -28,8 +26,6 @@
 	const successMessages = ['Link is on the way!', 'Welcome!'];
 	const btnTexts = ['GET LINK', 'SIGN IN'];
 
-	$: console.log(emailErr || !email);
-
 	$: {
 		if (submitErr) headerMessage = 'Oops! Ran into an error.. Try again?';
 		else if (submitSuccess) headerMessage = successMessages[+$firebase.needEmailAgain];
@@ -37,8 +33,7 @@
 			headerMessage = 'Please enter your email to complete signin.';
 	}
 
-	async function submitAction({ target }) {
-		console.log(target);
+	async function submitAction() {
 		submitting = true;
 		submitSuccess = await firebase[submitActions[+$firebase.needEmailAgain]](email);
 		submitErr = !submitSuccess;
@@ -51,29 +46,35 @@
 <main class="flex stack">
 	<h3>{headerMessage}</h3>
 
-	<form
-		novalidate
-		class="flex stack"
-		class:wait={!$userReady || submitting}
-		on:submit|preventDefault={submitAction}
-	>
-		<ValidatedInput
-			class="will-wait"
-			type="email"
-			placeholder="you@email.com"
-			bind:value={email}
-			validation={validate.email}
-			bind:isErred={emailErr}
-			showErrOnBlur={true}
-		/>
-		<button
-			type="submit"
-			class="will-wait transit bg-fill text-color hover m-o__ver"
-			disabled={emailErr || !email}
+	{#if !submitSuccess}
+		<form
+			novalidate
+			class="flex stack"
+			class:wait={!$userReady}
+			on:submit|preventDefault={submitAction}
 		>
-			{btnTexts[+$firebase.needEmailAgain]}
-		</button>
-	</form>
+			{#if submitting}
+				<Loader />
+			{:else}
+				<ValidatedInput
+					class="will-wait"
+					type="email"
+					placeholder="you@email.com"
+					bind:value={email}
+					validation={validate.email}
+					bind:isErred={emailErr}
+					showErrOnBlur={true}
+				/>
+				<button
+					type="submit"
+					class="will-wait transit bg-fill text-color hover m-o__ver"
+					disabled={emailErr || !email}
+				>
+					{btnTexts[+$firebase.needEmailAgain]}
+				</button>
+			{/if}
+		</form>
+	{/if}
 </main>
 
 <style>

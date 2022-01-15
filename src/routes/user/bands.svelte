@@ -11,7 +11,9 @@
 
 	// TODO: THIS IS NOT WORKING ($page.url.hash = '', not causing store updates on change)
 	$: browser && console.log(window.location);
-	$: console.log('logging $page.url: ', $page.url);
+	// $: console.log('logging $page.url: ', $page.url);
+
+	$: bands = $user?.bands || [];
 </script>
 
 <h2>Your bands</h2>
@@ -22,7 +24,7 @@
 			<h4>Add a new band</h4>
 		</a>
 	</li>
-	{#each $user.bands as { band }}
+	{#each bands as { band }}
 		<UserBandsListItem {...band} />
 	{/each}
 </ul>

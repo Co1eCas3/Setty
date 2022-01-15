@@ -11,6 +11,7 @@
 	let emailIsErred = false;
 	let sendError = false;
 	let linkSent = false;
+	let submitting = false;
 
 	$: formHeaderMessage = '';
 	$: {
@@ -20,17 +21,20 @@
 	}
 
 	async function sendLink() {
+		submitting = true;
 		linkSent = await firebase.sendEmail(email);
 
 		if (!linkSent) sendError = true;
+		submitting = false;
 	}
 </script>
 
-<form class="flex stack" on:submit|preventDefault={sendLink}>
+<form class="flex stack" on:submit|preventDefault={sendLink} class:wait={submitting}>
 	<h3>{formHeaderMessage}</h3>
 
 	{#if !linkSent || sendError}
 		<ValidatedInput
+			class="will-wait"
 			type="email"
 			placeholder="you@email.com"
 			bind:value={email}
@@ -39,7 +43,9 @@
 			waitForBlur={true}
 		/>
 
-		<button type="submit" disabled={!email || emailIsErred} class="flex"> SEND LINK </button>
+		<button type="submit" disabled={!email || emailIsErred} class="flex will-wait">
+			SEND LINK
+		</button>
 	{/if}
 </form>
 

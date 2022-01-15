@@ -1,92 +1,67 @@
 <script>
 	import { goto } from '$app/navigation';
-	import validator from 'validator';
 
 	import { user } from '$lib/stores/auth';
+	import * as validate from '$lib/utils/validate';
 	import * as siteMap from '$lib/utils/siteMap';
-	import Overlay from '../utilities/Overlay.svelte';
 
-	let name = '';
-	let showMainHeader = true;
-	let subHeaderTxt = 'How about you start by introducing yourself?';
+	import Overlay from '$lib/components/utilities/Overlay.svelte';
+	import ValidatedInput from '../utilities/ValidatedInput.svelte';
+	import Loader from '../utilities/Loader.svelte';
 
-	$: errMessage = validator.matches(name, /[^\s\w\d\-']/)
-		? 'No special characters except dashes and/or apostrophes please.'
-		: !validator.isLength(name, { max: 20 })
-		? 'Woah, is your name really that long? Got a nickname maybe? Something less than 20 characters?'
-		: '';
+	let newName = '',
+		submitting = false,
+		submitError = false,
+		isErred;
+
+	$: caption = submitError ? 'Oops! Something went wrong.. Try again?' : 'You look new here';
 
 	async function updateUserName() {
-		showMainHeader = false;
-
-		if (validator.isEmpty(name)) {
-			subHeaderTxt = "Don't want to tell us your name, eh?";
-			return;
-		}
-
-		subHeaderTxt = 'Updating...';
-		const updatedUser = await user.updateUserName(name);
-		if (!updatedUser) {
-			subHeaderTxt = "Oops! Wasn't able to update your name.. Try again?";
-			return;
-		}
-
-		goto(siteMap.userBands);
+		submitting = true;
+		const res = await user.updateUserName(newName);
+		if (res) return goto(siteMap.userBands);
+		submitError = true;
+		submitting = false;
 	}
 </script>
 
 <Overlay>
-	{#if showMainHeader}
-		<h1>Welcome! You look new here</h1>
+	{#if !submitError}
+		<h2>Welcome!</h2>
 	{/if}
-	<h3>{subHeaderTxt}</h3>
+	<h3>{caption}</h3>
 
-	<form on:submit|preventDefault={updateUserName}>
-		<div class="validation-cont">
-			<input type="text" placeholder="What's your name?" bind:value={name} />
-			{#if errMessage}
-				<small>{errMessage}</small>
-			{/if}
-		</div>
-		<button type="submit" disabled={!!errMessage}>SET NAME</button>
-	</form>
+	{#if submitting}
+		<Loader />
+	{:else}
+		<form class="flex stack" on:submit|preventDefault={updateUserName}>
+			<ValidatedInput
+				bind:value={newName}
+				placeholder="Introduce yourself"
+				validation={validate.name}
+				bind:isErred
+				autofocus
+			/>
+			<button
+				type="submit"
+				class="transit text-color bg-fill hover m-o__ver"
+				disabled={isErred || !newName}
+			>
+				SET NAME
+			</button>
+		</form>
+	{/if}
 </Overlay>
 
 <style>
-	form {
-		position: relative;
-		width: 40ch;
-		display: flex;
-		flex-direction: column;
-		gap: 2rem;
-	}
-
-	input {
-		width: 100%;
-		padding: 0.25em 0.8em;
-		border-radius: 7px;
-		background-color: var(--clr__lt-dim);
+	form :global(input) {
 		text-align: center;
-	}
-
-	small {
-		margin: 0 auto;
-		font-size: 0.6em;
+		background-color: var(--clr__dk-layer-low) !important;
+		border-radius: 0.25em !important;
 	}
 
 	button {
-		background-color: var(--clr__dk-main);
-		padding: 0.25em 0;
-		border-radius: 100vh;
-		transition: color 0.1s linear;
-	}
-
-	button[disabled] {
-		opacity: 0.5;
-		cursor: default;
-	}
-
-	button:hover:not([disabled]) {
-		color: var(--clr__accent);
+		--text-start: var(--clr__lt-main);
+		--text-end: var(--clr__dk-main);
 	}
 </style>

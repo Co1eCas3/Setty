@@ -1,4 +1,6 @@
 <script>
+	import { page } from '$app/stores';
+
 	import { user } from '$lib/stores/auth';
 	import * as validate from '$lib/utils/validate';
 
@@ -32,7 +34,7 @@
 	<b class="will-wait">{$user?.email}</b>
 </form>
 
-{#if !!hash}
+{#if $page.url.hash}
 	<NewUserForm />
 {/if}
 

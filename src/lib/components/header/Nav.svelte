@@ -50,7 +50,7 @@
 			href: siteMap.repertoire($page.params.band)
 		},
 		{
-			show: isBandPage,
+			show: isBandPage && !!$user,
 			title: 'Manage',
 			href: siteMap.bandManage($page.params.band)
 		}
@@ -79,5 +79,6 @@
 		width: min-content;
 		height: 100%;
 		justify-content: flex-end;
+		gap: var(--size-fluid-3);
 	}
 </style>

@@ -22,5 +22,6 @@
 		padding: 0 10rem;
 		background-color: var(--clr__dk-main);
 		color: var(--clr__lt-main);
+		gap: var(--size-fluid-3);
 	}
 </style>

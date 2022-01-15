@@ -10,7 +10,7 @@
 </script>
 
 <form on:submit|preventDefault={signOut} class="flex">
-	<button type="submit" class="">{btnTxt}</button>
+	<button type="submit" class="flex transit underline text-color hover m-o__hor">{btnTxt}</button>
 </form>
 
 <style>
@@ -24,24 +24,8 @@
 	}
 
 	button {
-		color: var(--clr__lt-half);
-		transition: color 0.1s;
-	}
-
-	button::after {
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		border-bottom: 0.125rem solid var(--clr__accent);
-		transform-origin: center;
-		transform: scaleX(0);
-		transition: transform 0.2s ease-out;
-	}
-
-	button:hover,
-	button:hover::after {
-		color: var(--clr__lt-main);
-		transform: scaleX(1);
+		justify-content: flex-start;
+		--text-start: var(--clr__lt-half);
+		--text-end: var(--clr__lt-main);
 	}
 </style>

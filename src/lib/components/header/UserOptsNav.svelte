@@ -1,32 +1,39 @@
 <script>
+	import { afterUpdate, tick } from 'svelte';
+	import { browser } from '$app/env';
 	import { page } from '$app/stores';
+
 	import { user, userReady } from '$lib/stores/auth';
 	import * as siteMap from '$lib/utils/siteMap';
 
 	import Auth from './Auth.svelte';
 
-	let menuOpen = false;
+	let menuOpen = false,
+		emailInpFocused = false;
 	$: includeProfile = !!$user && !!$page.params.band;
 
-	function handleOpenMenu() {
-		if (menuOpen) return handleCloseMenu();
-		menuOpen = true;
-		document.body.addEventListener('click', handleCloseMenu);
-	}
+	$: if (emailInpFocused) document.body.addEventListener('click', handleClickClose);
 
-	function handleCloseMenu() {
+	function handleClickClose() {
 		menuOpen = false;
-		document.body.removeEventListener('click', handleCloseMenu);
+		document.body.removeEventListener('click', handleClickClose);
 	}
 </script>
 
-<nav>
+<nav
+	on:mouseenter={() => (menuOpen = true)}
+	on:mouseleave={emailInpFocused ? null : () => (menuOpen = false)}
+>
 	<!-- this click needs to be prevented from bubbling because -->
 	<!-- it adds a click listener to the body. w/out preventing -->
 	<!-- propapation, the click would be fired again once the event -->
 	<!-- reached the body, and would set off handleMenuClose -->
 	<!-- effect would be complete inability to open the menu -->
-	<div on:click|stopPropagation={handleOpenMenu} class="icon-cont flex stack round" class:menuOpen>
+	<div
+		on:click={emailInpFocused ? handleClickClose : () => null}
+		class="icon-cont flex stack round"
+		class:menuOpen
+	>
 		<div class="icono-user" />
 	</div>
 
@@ -34,14 +41,16 @@
 		<!-- empty click handler with stopPropagation in order to -->
 		<!-- prevent a click event in the menu from triggering close -->
 		<!-- handler attached to the body -->
-		<ul on:click|stopPropagation={() => null}>
+		<ul>
 			{#if includeProfile}
 				<li class="flex">
-					<a href={siteMap.userProfile}>Profile</a>
+					<a class="flex transit underline text-color hover m-o__hor" href={siteMap.userProfile}
+						>Profile</a
+					>
 				</li>
 			{/if}
-			<li class:wait={!$userReady}>
-				<Auth />
+			<li class:wait={!$userReady} on:click|stopPropagation={() => null}>
+				<Auth on:focus={() => (emailInpFocused = true)} on:blur={() => (emailInpFocused = false)} />
 			</li>
 		</ul>
 	{/if}
@@ -70,34 +79,17 @@
 		position: relative;
 		width: 100%;
 		min-width: 15ch;
-		min-height: calc(var(--header-height) / 1.6);
-		border-bottom: 0.125rem solid var(--clr__lt-half);
-		justify-content: flex-start;
-	}
-
-	li::after {
-		left: 0;
-		right: 0;
-		bottom: 0;
-		width: 0;
-		height: 3px;
-		margin: 0 auto;
-		background-color: var(--clr__accent);
-		transition: width 0.2s ease-out;
-	}
-
-	li:hover:not(:last-child)::after {
-		width: 100%;
-	}
-
-	li:hover a {
-		color: var(--clr__lt-main);
+		height: calc(var(--header-height) / 1.6);
+		padding: 0 2rem;
+		place-items: flex-start;
 	}
 
 	a {
-		flex-basis: 100%;
-		color: var(--clr__lt-half);
-		transition: color 0.1s linear;
+		width: 100%;
+		height: 100%;
+		justify-content: flex-start;
+		--text-start: var(--clr__lt-half);
+		--text-end: var(--clr__lt-main);
 	}
 
 	.icon-cont {

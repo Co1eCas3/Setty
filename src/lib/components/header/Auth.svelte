@@ -10,7 +10,7 @@
 	{#if $user}
 		<LogoutForm />
 	{:else}
-		<LoginForm />
+		<LoginForm on:focus on:blur />
 	{/if}
 </div>
 

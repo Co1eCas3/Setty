@@ -2,6 +2,7 @@
 	import * as validator from 'validator';
 	const { isEmpty } = validator.default;
 
+	export let type = 'text';
 	export let value = '';
 	export let transform = (newVal) => newVal;
 	export let validation = () => '';
@@ -11,7 +12,6 @@
 	let showError = !showErrOnBlur;
 
 	$: validationMessage = validation(value);
-	$: console.log(validationMessage);
 	$: isErred = !isEmpty(validationMessage);
 
 	function handle(inp) {
@@ -35,7 +35,7 @@
 </script>
 
 <div class={$$restProps.class}>
-	<input {...$$restProps} use:handle />
+	<input {...$$restProps} {type} use:handle on:focus on:blur />
 	<small>{showError ? validationMessage : ''}</small>
 </div>
 
@@ -53,7 +53,7 @@
 		width: 100%;
 		font-size: inherit;
 		letter-spacing: inherit;
-		margin-bottom: 1em;
+		margin-bottom: 1.5em;
 	}
 
 	small {

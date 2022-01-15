@@ -94,6 +94,7 @@
 		background-color: var(--clr__dk-main);
 		font-size: var(--font-size-fluid-1);
 		color: var(--clr__lt-almost);
+		gap: 0.65rem;
 	}
 
 	main :global(input) {
@@ -101,8 +102,6 @@
 	}
 
 	button {
-		padding: 0.5em 1em;
-		border-radius: 0.25em;
 		--transit__start: transparent;
 		--transit__end: var(--clr__accent--);
 		--text-start: var(--clr__lt-main);

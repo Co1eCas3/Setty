@@ -1,11 +1,8 @@
 <script>
-	import isEmail from 'validator/lib/isEmail';
 	import { firebase } from '$lib/stores/auth';
-
 	import * as validate from '../../utils/validate';
 
 	import ValidatedInput from '../utilities/ValidatedInput.svelte';
-	import Loader from '../utilities/Loader.svelte';
 
 	let email = '';
 	let emailIsErred = false;
@@ -41,6 +38,8 @@
 			validation={validate.email}
 			bind:isErred={emailIsErred}
 			waitForBlur={true}
+			on:focus
+			on:blur
 		/>
 
 		<button type="submit" disabled={!email || emailIsErred} class="flex will-wait">
@@ -52,6 +51,7 @@
 <style>
 	form {
 		margin: 1rem;
+		background-color: var(--clr__dk-main);
 		gap: 1rem;
 	}
 

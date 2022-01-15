@@ -1,10 +1,12 @@
 <script>
-	import * as siteMap from '../../utils/siteMap';
+	export let cancelFn = null;
 </script>
 
 <section>
 	<div class="cont">
-		<a href={siteMap.userBands} class="cancel">X</a>
+		{#if cancelFn}
+			<button on:click={cancelFn} class="cancel">X</button>
+		{/if}
 		<slot />
 	</div>
 </section>
@@ -28,7 +30,7 @@
 		height: 80vh;
 		width: 80vw;
 		margin: 0 auto;
-		/* padding-top: 4rem; */
+		padding: var(--size-fluid-4) 0;
 		border-radius: 12px;
 		background-color: var(--clr__dk-main);
 		box-shadow: 0 0 6px var(--clr__dk-main), 0 0 6px var(--clr__lt-main);
@@ -38,6 +40,18 @@
 		flex-direction: column;
 		place-items: center;
 		gap: 2rem;
+		overflow-y: scroll;
+	}
+
+	.cont::-webkit-scrollbar {
+		background-color: transparent;
+	}
+
+	.cont::-webkit-scrollbar-thumb {
+		width: 2rem;
+		height: 2rem;
+		border-radius: 100vh;
+		background-color: var(--clr__accent);
 	}
 
 	.cancel {

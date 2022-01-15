@@ -89,6 +89,8 @@ input:focus, input:focus-visible {
 }
 
 button {
+  padding: 0.5em 1em;
+  border-radius: 0.25em;
   border: none;
   background-color: transparent;
   font-family: inherit;
@@ -349,7 +351,7 @@ button:disabled {
 /* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = UNDERLINE =  */
 
 .underline {
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .underline::after {
@@ -358,7 +360,7 @@ button:disabled {
 }
 
 .underline::after {
-  border-bottom: 0.125em solid var(--__color-ter);
+  border-bottom: 0.125em solid var(--transit__pop);
   transition-property: transform;
   transform: var(--transform-start);
 }

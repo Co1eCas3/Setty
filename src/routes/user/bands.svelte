@@ -10,7 +10,6 @@
 	import { browser } from '$app/env';
 
 	// TODO: THIS IS NOT WORKING ($page.url.hash = '', not causing store updates on change)
-	$: browser && console.log(window.location);
 	// $: console.log('logging $page.url: ', $page.url);
 
 	$: bands = $user?.bands || [];
@@ -18,10 +17,10 @@
 
 <h2>Your bands</h2>
 
-<ul>
-	<li class="add-new">
+<ul class="flex stack">
+	<li class="add-new will-wait transit text-color hover">
 		<a href={siteMap.newBand} on:click={({ target }) => console.log(target)}>
-			<h4>Add a new band</h4>
+			<h3>Add a new band</h3>
 		</a>
 	</li>
 	{#each bands as { band }}
@@ -37,6 +36,13 @@
 {/if}
 
 <style>
+	ul {
+		max-width: max-content;
+		margin: 1rem 1.5rem;
+		place-items: flex-start;
+		gap: 0.65em;
+	}
+
 	.add-new {
 	}
 </style>

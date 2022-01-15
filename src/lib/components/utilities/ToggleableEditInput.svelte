@@ -12,6 +12,7 @@
 	let editing = false,
 		submitErr = false,
 		saved = false,
+		notSaved = false,
 		contEl,
 		initValue,
 		waiter;
@@ -22,7 +23,7 @@
 
 	$: initValue = initValue ?? targetEl?.value;
 	$: value = initValue;
-	$: notSaved = value !== initValue && !targetEl?.focused;
+	$: notSaved = value !== initValue;
 
 	const inputHandler = () => (value = targetEl.value);
 
@@ -50,7 +51,10 @@
 		const res = await submitFn(value);
 		submitErr = !res;
 		if (!res) return;
+		finish();
+	}
 
+	function finish() {
 		initValue = value;
 		saved = true;
 		const timer = setTimeout(() => {
@@ -195,8 +199,7 @@
 		display: flex;
 	}
 
-	.icon-cont::after,
-	.saved::after {
+	.icon-cont::after {
 		content: attr(data-icon);
 		width: 100%;
 		bottom: 0;

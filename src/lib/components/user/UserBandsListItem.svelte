@@ -7,9 +7,9 @@
 	let subMenuOpen;
 </script>
 
-<li>
+<li class="top-level will-wait">
 	<div class="flex">
-		<a href={siteMap.band(webSafeName)}>
+		<a class="transit text-color hover" href={siteMap.band(webSafeName)}>
 			<h3>{name}</h3>
 		</a>
 		<button class="arrow" class:subMenuOpen on:click={() => (subMenuOpen = !subMenuOpen)} />
@@ -18,23 +18,23 @@
 	{#if subMenuOpen}
 		<ul class="flex stack">
 			<li>
-				<a href={siteMap.repertoire(webSafeName)}>
-					<h5>Repertiore</h5>
+				<a class="transit text-color hover" href={siteMap.repertoire(webSafeName)}>
+					<h4>Repertiore</h4>
 				</a>
 			</li>
 			<li>
-				<a href={siteMap.band(webSafeName)}>
-					<h5>Set Lists</h5>
+				<a class="transit text-color hover" href={siteMap.band(webSafeName)}>
+					<h4>Set Lists</h4>
 				</a>
 			</li>
 			<li>
-				<a href={siteMap.newList(webSafeName)}>
-					<h5>Write a List</h5>
+				<a class="transit text-color hover" href={siteMap.newList(webSafeName)}>
+					<h4>Write a List</h4>
 				</a>
 			</li>
 			<li>
-				<a href={siteMap.bandManage(webSafeName)}>
-					<h5>Manage Band</h5>
+				<a class="transit text-color hover" href={siteMap.bandManage(webSafeName)}>
+					<h4>Manage Band</h4>
 				</a>
 			</li>
 		</ul>
@@ -42,12 +42,29 @@
 </li>
 
 <style>
+	.top-level {
+		width: 100%;
+		margin-right: 2.5rem;
+	}
+
+	div {
+		justify-content: space-between;
+	}
+
+	ul {
+		margin: 0.5em 1em;
+		place-items: flex-start;
+		gap: 0.5em;
+	}
+
 	.arrow {
 		position: relative;
-		width: 2rem;
-		height: 2rem;
+		bottom: 0.25em;
+		width: 1rem;
+		height: 1rem;
 		display: flex;
 		place-items: center;
+		transition: bottom 0.2s ease-out;
 	}
 
 	.arrow::after {
@@ -59,10 +76,14 @@
 		border: 1px solid var(--clr__dk-layer-low);
 		border-top-color: transparent;
 		border-right-color: transparent;
-		border-bottom-left-radius: 1rem;
+		border-bottom-left-radius: 0.25em;
 		transform-origin: center;
 		transform: rotate(-45deg);
 		transition: transform 0.2s ease-out;
+	}
+
+	.subMenuOpen {
+		bottom: -0.1em;
 	}
 
 	.subMenuOpen::after {

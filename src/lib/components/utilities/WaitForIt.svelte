@@ -1,6 +1,4 @@
 <script>
-	import { crossfade } from 'svelte/transition';
-
 	export let waitOn = true;
 
 	export function run(asyncFn, ...args) {
@@ -10,25 +8,20 @@
 	export function prep(asyncFn) {
 		return run.bind(null, asyncFn);
 	}
-
-	const key = Symbol();
-	const [send, receive] = crossfade({
-		duration: 250
-	});
 </script>
 
 <span class="waitforit-cont">
 	{#await waitOn}
-		<div in:send={key} out:receive={key}>
+		<div>
 			<slot name="loader" />
 		</div>
 	{:then res}
 		{#if !waitOn}
-			<div in:send={key} out:receive={key}>
+			<div>
 				<slot name="loader" />
 			</div>
 		{:else}
-			<div in:send={key} out:receive={key}>
+			<div>
 				<slot name="content" />
 			</div>
 		{/if}

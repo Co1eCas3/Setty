@@ -8,12 +8,14 @@
 	export let showErrOnBlur = false;
 	export let isErred;
 
-	let showError = false;
+	let showError = !showErrOnBlur;
 
 	$: validationMessage = validation(value);
+	$: console.log(validationMessage);
 	$: isErred = !isEmpty(validationMessage);
 
 	function handle(inp) {
+		inp.value = value;
 		const handleValue = ({ target }) => (target.value = value = transform(target.value));
 		const handleDoValidate = () => {
 			showError = true;
@@ -48,6 +50,7 @@
 	}
 
 	input {
+		width: 100%;
 		font-size: inherit;
 		letter-spacing: inherit;
 		margin-bottom: 1em;

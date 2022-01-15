@@ -5,13 +5,13 @@
 
   --clr__dk-main: #03080C;
   --clr__dk-almost: rgba(3, 8, 12, .9);
-  --clr__dk-half: rgba(3, 8, 12, .5);
+  --clr__dk-half: rgba(3, 8, 12, .6);
   --clr__dk-dim: rgba(3, 8, 12, .1);
   --clr__dk-layer-low: rgb(26, 30, 35);
   --clr__dk-layer-high: rgba(112, 115, 125);
   --clr__lt-main: #DDDEEE;
   --clr__lt-almost: rgba(221, 222, 238, .8);
-  --clr__lt-half: rgba(221, 222, 238, .5);
+  --clr__lt-half: rgba(221, 222, 238, .6);
   --clr__lt-dim: rba(221, 222, 238, .2);
   --clr__accent: #d9b526;
   --clr__accent-half: rgba(217, 181, 38, .5);
@@ -106,7 +106,6 @@ button:disabled {
   display: flex;
   justify-content: center;
   place-items: center;
-  gap: var(--size-fluid-3, clamp(1rem, 2vw, 2rem));
 }
 
 .stack {
@@ -183,6 +182,7 @@ button:disabled {
 .transit::before,
 .transit::after {
   position: absolute;
+  top: 0; left: 0;
   content: "";
   z-index: -1;
   width: 100%;
@@ -307,14 +307,14 @@ button:disabled {
 .text-color,
 .text-color * {
   transition-property: color;
-  color: var(--text-start);
+  color: var(--text-start) !important;
 }
 
 .text-color.hover:not(:disabled):hover,
 .text-color.hover:not(:disabled):hover *,
 .text-color.click:not(:disabled),
 .text-color.click:not(:disabled) * {
-  color: var(--text-end);
+  color: var(--text-end) !important;
 }
 
 /* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = END TEXT COLOR =  */

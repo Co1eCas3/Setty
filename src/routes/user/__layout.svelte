@@ -1,8 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 
-	import { user } from '$lib/stores/auth';
-	import { userReady } from '$lib/stores/auth';
+	import { user, userReady } from '$lib/stores/auth';
 	import * as siteMap from '$lib/utils/siteMap';
 
 	import Loader from '$lib/components/utilities/Loader.svelte';
@@ -12,27 +11,16 @@
 	$: if ($userReady && !$user) goto(siteMap.login);
 </script>
 
-<!-- {#if !$userReady} -->
+<div id="user-layout" class:wait={!$userReady}>
+	<header class="flex">
+		<h1 class="will-wait">Hi there{$user?.name ? ` ${$user.name}!` : '!'}</h1>
+	</header>
+	<UserSideNav />
+	<main>
+		<slot />
+	</main>
+</div>
 
-<WaitForIt waitOn={$userReady}>
-	<div slot="loader" class="loader-cont flex">
-		<Loader --color="var(--clr__dk-main)" />
-	</div>
-	<!-- {:else if $user} -->
-	<svelte:fragment slot="content">
-		<div id="user-layout">
-			<header class="flex">
-				<h1>Hi there{$user?.name ? ` ${$user.name}!` : '!'}</h1>
-			</header>
-			<UserSideNav />
-			<main>
-				<slot />
-			</main>
-		</div>
-	</svelte:fragment>
-</WaitForIt>
-
-<!-- {/if} -->
 <style>
 	.loader-cont {
 		position: fixed;
@@ -66,5 +54,6 @@
 		grid-area: body;
 		justify-self: start;
 		padding: 2rem 5rem;
+		overflow-y: scroll;
 	}
 </style>

@@ -14,12 +14,13 @@
 
 <h1>Details</h1>
 
-<form class="flex stack" on:submit|preventDefault>
+<form class="flex stack" class:wait={!$user} on:submit|preventDefault>
 	<!-- TODO -->
 	<!-- enable ability to submit individual inputs -->
 
 	<ToggleableEditInput submitFn={user.updateUserName} validationErr={isErred}>
 		<ValidatedInput
+			class="will-wait"
 			type="text"
 			placeholder="Add your name"
 			value={$user?.name || ''}
@@ -28,7 +29,7 @@
 		/>
 	</ToggleableEditInput>
 
-	<b>{$user?.email}</b>
+	<b class="will-wait">{$user?.email}</b>
 </form>
 
 {#if !!hash}

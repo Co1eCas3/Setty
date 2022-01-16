@@ -3,7 +3,7 @@ import db from '$lib/database/dbConnect';
 
 
 export async function get(req) {
-  const subject = req.query.get('wsn');
+  const subject = req.url.searchParams.get('wsn');
   if (!subject) return responses.noContent({});
 
   try {

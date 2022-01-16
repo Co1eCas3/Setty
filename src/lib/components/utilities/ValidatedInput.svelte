@@ -16,7 +16,7 @@
 
 	function handle(inp) {
 		inp.value = value;
-		const handleValue = ({ target }) => (target.value = value = transform(target.value));
+		const handleValue = () => (inp.value = value = transform(inp.value));
 		const handleDoValidate = () => {
 			showError = true;
 			inp.removeEventListener('blur', handleDoValidate);
@@ -26,6 +26,9 @@
 		if (showErrOnBlur) inp.addEventListener('blur', handleDoValidate);
 
 		return {
+			update(_value) {
+				inp.value = value = transform(_value);
+			},
 			destroy() {
 				inp.removeEventListener('input', handleValue);
 				inp.removeEventListener('blur', handleDoValidate);
@@ -35,7 +38,7 @@
 </script>
 
 <div class={$$restProps.class}>
-	<input {...$$restProps} {type} use:handle on:focus on:blur />
+	<input {...$$restProps} {type} use:handle={value} on:focus on:blur on:input on:change on:keyup />
 	<small>{showError ? validationMessage : ''}</small>
 </div>
 

@@ -48,6 +48,7 @@
 
 		const url = urlMaker({ path: '/api/bands/check-wsn-is-unique', query: { wsn } });
 		const res = await fetch(url);
+		console.log(res);
 		waitingForWSNIsTaken = false;
 
 		if (res.status === 204) return (WSNIsTaken = false);

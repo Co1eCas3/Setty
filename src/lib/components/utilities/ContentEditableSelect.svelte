@@ -1,11 +1,11 @@
 <script>
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 
 	export let selectedValue;
 	export let editValue = false;
 	export let customValue = '';
 
-	let inputEl, selectEl, editOptionHandler, focusHandler;
+	let inputEl, selectEl, editOptionHandler, focusHandler, blurHandler;
 
 	onMount(() => {
 		const doSelect = [...selectEl.querySelectorAll('option')].findIndex(
@@ -14,11 +14,12 @@
 		selectEl.selectedIndex = doSelect > -1 ? doSelect : 0;
 
 		selectChangedHandler();
-	});
 
-	onDestroy(() => {
-		inputEl.removeEventListener('input', editOptionHandler);
-		inputEl.removeEventListener('focus', focusHandler);
+		return () => {
+			inputEl.removeEventListener('input', editOptionHandler);
+			inputEl.removeEventListener('focus', focusHandler);
+			inputEl.removeEventListener('blur', blurHandler);
+		};
 	});
 
 	function selectChangedHandler() {
@@ -29,13 +30,19 @@
 
 		editOptionHandler = () => editOptionEl(selected);
 		focusHandler = () => inputEl.select();
+		blurHandler = () => {
+			inputEl.value = inputEl.value || 'Other';
+			editOptionEl(selected);
+		};
 
 		if (!inputEl.disabled) {
 			inputEl.addEventListener('input', editOptionHandler);
 			inputEl.addEventListener('focus', focusHandler);
+			inputEl.addEventListener('blur', blurHandler);
 		} else {
 			inputEl.removeEventListener('input', editOptionHandler);
 			inputEl.removeEventListener('focus', focusHandler);
+			inputEl.removeEventListener('blur', blurHandler);
 		}
 	}
 
@@ -46,7 +53,7 @@
 	}
 </script>
 
-<div class="cont__main">
+<div class="cont__main" on:click>
 	<select bind:this={selectEl} on:change={selectChangedHandler}>
 		<slot />
 	</select>
@@ -65,16 +72,33 @@
 
 	.cont__main {
 		position: relative;
-		width: 100%;
+		z-index: 1;
+		/* width: 100%; */
 		margin: 0 auto;
+	}
+
+	.cont__main::after {
+		top: 0;
+		right: 0;
+		z-index: -1;
+		margin-block: auto;
+		height: 50%;
+		aspect-ratio: 1;
+		border-right: 2px solid currentColor;
+		border-bottom: 2px solid currentColor;
+		border-bottom-right-radius: 0.15em;
+		transform: rotate(45deg);
 	}
 
 	select {
 		position: absolute;
 		top: 0;
 		left: 0;
+		z-index: 2;
 		width: 100%;
 		height: 2rem;
+		border: none;
+		opacity: 0;
 	}
 
 	select:focus,
@@ -84,15 +108,15 @@
 
 	input {
 		position: relative;
-		z-index: 2;
+		z-index: 3;
 		width: calc(100% - 28px);
 		height: 2rem;
-		background: white;
+		color: inherit;
 	}
 
-	input:disabled {
+	/* input:disabled {
 		color: black;
-	}
+	} */
 
 	i {
 		position: absolute;
@@ -125,7 +149,7 @@
 	input:not(:disabled) ~ i::before {
 		height: 60%;
 		border-width: 0 3px;
-		border-color: rgba(20, 20, 20, 0.4);
+		border-color: var(--clr__lt-half);
 		border-radius: 4px 4px 0 0;
 	}
 
@@ -133,7 +157,7 @@
 		height: 0;
 		top: 80%;
 		border-width: 6px 3px 0;
-		border-color: rgba(20, 20, 20, 0.4) transparent transparent transparent;
+		border-color: var(--clr__lt-half) transparent transparent transparent;
 		border-style: solid;
 	}
 </style>

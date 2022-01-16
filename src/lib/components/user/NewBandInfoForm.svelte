@@ -7,8 +7,8 @@
 	import { makeBandNameWebSafe } from '$lib/utils/helpers';
 
 	import ValidatedInput from '../utilities/ValidatedInput.svelte';
-	import NewWebSafeNameInput from './NewWebSafeNameInput.svelte';
 	import ContentEditableSelect from '../utilities/ContentEditableSelect.svelte';
+	import Loader from '../utilities/Loader.svelte';
 
 	export let isReady = false;
 
@@ -24,7 +24,7 @@
 	}
 </script>
 
-<fieldset>
+<fieldset class="flex stack">
 	<!-- - - - - - - - - - - - -- - - - - BAND NAME - - - - - - -->
 	<h3>Enter your band name</h3>
 
@@ -41,7 +41,27 @@
 	<h3>Web Safe Name</h3>
 	<h6>This will be your band's URL. It must be unique.</h6>
 
-	<NewWebSafeNameInput bind:WSNIsErred bind:hasManuallyEditedWSN />
+	<div class="wsn-input-cont flex stack">
+		<ValidatedInput
+			placeholder="band-name"
+			bind:value={$newBand.band.webSafeName}
+			bind:isErred={WSNIsErred}
+			transform={makeBandNameWebSafe}
+			validation={validate.webSafeName}
+			on:keyup={() => (hasManuallyEditedWSN = true)}
+		/>
+		{#if !!$newBand.band.webSafeName && !WSNIsErred}
+			<small class="flex">
+				{#await validate.WSNIsTaken($newBand.band.webSafeName)}
+					<Loader --height=".7rem" />
+				{:then WSNIsTaken}
+					{WSNIsTaken
+						? "Sorry, that URL is taken, you'll have to tweak it a bit"
+						: 'URL is available!'}
+				{/await}
+			</small>
+		{/if}
+	</div>
 
 	<!-- - - - - - - - - - - - -- - - - - BAND ROLE SELECT - - - - - - -->
 	<h3>What role do you take on in this band?</h3>
@@ -59,9 +79,21 @@
 <style>
 	fieldset {
 		padding: 1rem 2rem;
-		display: flex;
-		flex-direction: column;
-		place-items: center;
-		gap: 1rem;
+		font-size: var(--font-size-fluid-1);
+		color: var(--clr__lt-main);
+		gap: 0.4rem;
+	}
+
+	.wsn-input-cont {
+		position: relative;
+	}
+
+	.wsn-input-cont small {
+		position: absolute;
+		left: 0;
+		bottom: 0.4em;
+		width: 100%;
+		font-size: 0.5em;
+		text-align: center;
 	}
 </style>

@@ -29,7 +29,7 @@ export const bandName = (name, el) => {
 
 export const webSafeName = wsn => {
   if (validator.isEmpty(wsn)) return '';
-  if (validator.matches(/[^\w\d\-_!]/))
+  if (validator.matches(wsn, /[^\w\d\-_!]/))
     return "Only special characters '!', '-', and '_' are allowed for the URL.";
   if (!validator.isLength(wsn, { max: 30 }))
     return "That's going to be hard to remember, please make it shorter."
@@ -44,10 +44,8 @@ export const WSNIsTaken = debounceAsync(async wsn => {
   const res = await fetch(url);
 
   if (res.status === 204) return false;
-
-  const data = await res.json();
-  return data.found;
-}, 500);
+  return true;
+}, 250);
 
 
 

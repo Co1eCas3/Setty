@@ -1,7 +1,6 @@
 import { responses } from "$lib/utils/responses";
 import db from '$lib/database/dbConnect';
 import bandUserView from '$lib/database/views/bandUser';
-import bandView from "$lib/database/views/band";
 
 export async function post(req) {
   if (!req.locals.auth) return responses.forbidden({});

@@ -2,7 +2,7 @@
 	import { firebase } from '$lib/stores/auth';
 	import * as validate from '$lib/utils/validate';
 
-	import ValidatedInput from '../utilities/ValidatedInput.svelte';
+	import ValidatedInput from '$lib/components/utilities/ValidatedInput.svelte';
 
 	let email = '';
 	let emailIsErred = false;

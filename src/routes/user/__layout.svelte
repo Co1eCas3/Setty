@@ -4,10 +4,8 @@
 	import { user, userReady } from '$lib/stores/auth';
 	import siteMap from '$lib/utils/siteMap';
 
-	import Loader from '$lib/components/utilities/Loader.svelte';
 	import UserSideNav from '$lib/components/user/UserSideNav.svelte';
-	import WaitForIt from '$lib/components/utilities/WaitForIt.svelte';
-	$: console.log($user);
+
 	$: if ($userReady && !$user) goto(siteMap.login);
 </script>
 

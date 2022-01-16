@@ -1,5 +1,4 @@
 <script>
-	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 
 	import { firebase, user, userReady } from '$lib/stores/auth';
@@ -39,8 +38,6 @@
 		submitErr = !submitSuccess;
 		submitting = false;
 	}
-
-	onMount(() => firebase.signIn());
 </script>
 
 <main class="flex stack">

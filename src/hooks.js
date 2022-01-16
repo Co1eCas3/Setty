@@ -12,11 +12,11 @@ export async function handle({ request: req, resolve }) {
   }
 
   try {
-    const { data: { userId } } = jwt.verify(token, process.env.JWT_SECRET, {
+    const { data } = jwt.verify(token, process.env.JWT_SECRET, {
       issuer: process.env.JWT_ISSUER
     });
 
-    req.locals = { auth: true, userId }
+    req.locals = { auth: true, ...data }
   } catch (error) {
     console.log('jwt error: ', error);
     req.locals.auth = false;

@@ -1,4 +1,4 @@
-import { urlMaker } from "./helpers";
+import { urlMaker } from "$lib/utils/helpers";
 
 const siteMap = {};
 
@@ -13,7 +13,7 @@ siteMap.newBand = urlMaker({ path: 'user/bands', hash: 'new' });
 siteMap.band = webSafeName => urlMaker({ path: `${webSafeName}` });
 siteMap.bandManage = webSafeName => urlMaker({ path: `${webSafeName}/manage` });
 siteMap.repertoire = webSafeName => urlMaker({ path: `${webSafeName}/repertoire` });
-siteMap.newList = webSafeName => urlMaker({ path: `${webSafeName}#new-list` });
+siteMap.newList = webSafeName => urlMaker({ path: webSafeName, hash: 'new' });
 siteMap.list = (webSafeName, listName) => urlMaker({ path: `${webSafeName}/${listName}` });
 
 export default siteMap;

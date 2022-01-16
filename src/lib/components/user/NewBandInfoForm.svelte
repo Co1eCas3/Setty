@@ -6,9 +6,9 @@
 	import bandRoleMap from '$lib/utils/bandRoleMap';
 	import { makeBandNameWebSafe } from '$lib/utils/helpers';
 
-	import ValidatedInput from '../utilities/ValidatedInput.svelte';
-	import ContentEditableSelect from '../utilities/ContentEditableSelect.svelte';
-	import Loader from '../utilities/Loader.svelte';
+	import ValidatedInput from '$lib/components/utilities/ValidatedInput.svelte';
+	import ContentEditableSelect from '$lib/components/utilities/ContentEditableSelect.svelte';
+	import Loader from '$lib/components/utilities/Loader.svelte';
 
 	export let isReady = false;
 

@@ -1,6 +1,5 @@
 import { derived } from 'svelte/store';
-import { firebase } from './firebase';
-import { user } from './user';
+import { firebase, user } from '$lib/stores/auth';
 
 export const userReady = derived(
   [firebase, user],

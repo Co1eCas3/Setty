@@ -1,9 +1,9 @@
 <script>
 	import { page } from '$app/stores';
-	import Logo from './Logo.svelte';
-	import Nav from './Nav.svelte';
-	import QuickSearch from './QuickSearch.svelte';
-	import UserOptsNav from './UserOptsNav.svelte';
+	import Logo from '$lib/components/header/Logo.svelte';
+	import Nav from '$lib/components/header/Nav.svelte';
+	import QuickSearch from '$lib/components/header/QuickSearch.svelte';
+	import UserOptsNav from '$lib/components/header/UserOptsNav.svelte';
 </script>
 
 <header class="flex">

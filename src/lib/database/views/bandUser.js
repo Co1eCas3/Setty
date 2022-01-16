@@ -1,4 +1,4 @@
-import bandView from './band';
+import bandView from '$lib/database/views/bandDetails';
 
 const bandUserView = {
   userRole: true,

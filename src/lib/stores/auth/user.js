@@ -2,8 +2,7 @@ import { writable, get } from 'svelte/store';
 
 import { urlMaker } from "$lib/utils/helpers";
 import { setToken, useToken } from "$lib/utils/token";
-import { firebase } from "./firebase";
-import siteMap from '$lib/utils/siteMap';
+import { firebase } from "$lib/stores/auth";
 
 
 // `$user = undefined` means auth status has not been resolved yet

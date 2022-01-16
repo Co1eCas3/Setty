@@ -43,17 +43,6 @@
 		overflow-y: scroll;
 	}
 
-	.cont::-webkit-scrollbar {
-		background-color: transparent;
-	}
-
-	.cont::-webkit-scrollbar-thumb {
-		width: 2rem;
-		height: 2rem;
-		border-radius: 100vh;
-		background-color: var(--clr__accent);
-	}
-
 	.cancel {
 		position: absolute;
 		top: 1em;

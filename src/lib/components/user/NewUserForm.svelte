@@ -6,8 +6,8 @@
 	import siteMap from '$lib/utils/siteMap';
 
 	import Overlay from '$lib/components/utilities/Overlay.svelte';
-	import ValidatedInput from '../utilities/ValidatedInput.svelte';
-	import Loader from '../utilities/Loader.svelte';
+	import ValidatedInput from '$lib/components/utilities/ValidatedInput.svelte';
+	import Loader from '$lib/components/utilities/Loader.svelte';
 
 	let newName = '',
 		submitting = false,

@@ -1,4 +1,4 @@
-import bandUserView from "./bandUser";
+import bandUserView from "$lib/database/views/bandUser";
 
 const userView = {
   id: true,

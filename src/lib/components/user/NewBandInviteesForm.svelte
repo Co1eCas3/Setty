@@ -6,7 +6,7 @@
 	import bandRoleMap from '$lib/utils/bandRoleMap';
 	import * as validate from '$lib/utils/validate';
 
-	import ValidatedInput from '../utilities/ValidatedInput.svelte';
+	import ValidatedInput from '$lib/components/utilities/ValidatedInput.svelte';
 	import ContentEditableSelect from '$lib/components/utilities/ContentEditableSelect.svelte';
 
 	export let isReady;

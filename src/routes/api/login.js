@@ -27,8 +27,18 @@ export async function post(req) {
         user = await db.user.create({ data: { email, fbuid }, select: userView });
     }
 
+    const payload = {
+      data: {
+        userId: user.id,
+        userRoles: user.bands.map(({ userRole, band: { webSafeName } }) => ({
+          userRole,
+          band: webSafeName
+        }))
+      }
+    }
+
     const token = jwt.sign(
-      { data: { userId: user.id } },
+      payload,
       process.env.JWT_SECRET,
       { issuer: process.env.JWT_ISSUER }
     );

@@ -6,7 +6,7 @@
 	import { user, userReady } from '$lib/stores/auth';
 	import siteMap from '$lib/utils/siteMap';
 
-	import Auth from './Auth.svelte';
+	import Auth from '$lib/components/header/Auth.svelte';
 
 	let menuOpen = false,
 		emailInpFocused = false;

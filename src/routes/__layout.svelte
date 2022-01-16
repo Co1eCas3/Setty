@@ -1,12 +1,12 @@
 <script>
+	import { onMount } from 'svelte';
+
+	import { firebase } from '$lib/stores/auth';
+
 	import '../app.css';
-	import { browser } from '$app/env';
-	import { firebase, user } from '$lib/stores/auth';
-
-	$: if (browser) console.log('firebase: ', $firebase);
-	$: if (browser) console.log('user: ', $user);
-
 	import Header from '$lib/components/header/Header.svelte';
+
+	onMount(() => firebase.signIn());
 </script>
 
 <Header />

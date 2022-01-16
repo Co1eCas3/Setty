@@ -6,12 +6,10 @@
 
 	import { user } from '$lib/stores/auth';
 	import ctxKey from '$lib/utils/ctxKey.js';
-	import { useToken } from '$lib/utils/token.js';
-	import { urlMaker } from '$lib/utils/helpers.js';
 
-	import NewBandInfoForm from './NewBandInfoForm.svelte';
-	import NewBandInviteesForm from './NewBandInviteesForm.svelte';
-	import CreateBandFailed from './CreateBandFailed.svelte';
+	import NewBandInfoForm from '$lib/components/user/NewBandInfoForm.svelte';
+	import NewBandInviteesForm from '$lib/components/user/NewBandInviteesForm.svelte';
+	import CreateBandFailed from '$lib/components/user/CreateBandFailed.svelte';
 	import Loader from '$lib/components/utilities/Loader.svelte';
 
 	export let closeWhenDone;

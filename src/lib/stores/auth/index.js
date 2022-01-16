@@ -1,3 +1,3 @@
-export { user } from './user.js';
-export { firebase } from './firebase.js';
-export { userReady } from './userReady.js';
+export { user } from '$lib/stores/auth/user';
+export { firebase } from '$lib/stores/auth/firebase';
+export { userReady } from '$lib/stores/auth/userReady';

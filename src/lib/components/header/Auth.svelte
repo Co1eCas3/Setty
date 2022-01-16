@@ -1,9 +1,8 @@
 <script>
-	import { user, userReady } from '$lib/stores/auth';
+	import { user } from '$lib/stores/auth';
 
-	import LoginForm from '../header/LoginForm.svelte';
-	import Loader from '../utilities/Loader.svelte';
-	import LogoutForm from './LogoutForm.svelte';
+	import LoginForm from '$lib/components/header/LoginForm.svelte';
+	import LogoutForm from '$lib/components/header/LogoutForm.svelte';
 </script>
 
 <div class="auth-cont will-wait">

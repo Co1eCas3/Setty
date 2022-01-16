@@ -3,7 +3,7 @@
 	import { user } from '$lib/stores/auth';
 	import siteMap from '$lib/utils/siteMap';
 
-	import NavItem from './NavItem.svelte';
+	import NavItem from '$lib/components/header/NavItem.svelte';
 
 	$: isBandPage = !!$page.params.band;
 	$: showUserLinks = !!$user && !isBandPage;

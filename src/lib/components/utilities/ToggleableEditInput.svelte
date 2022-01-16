@@ -3,8 +3,8 @@
 	import { fly } from 'svelte/transition';
 	import { browser } from '$app/env';
 
-	import WaitForIt from './WaitForIt.svelte';
-	import Loader from './Loader.svelte';
+	import WaitForIt from '$lib/components/utilities/WaitForIt.svelte';
+	import Loader from '$lib/components/utilities/Loader.svelte';
 
 	export let target = 'input';
 	export let submitFn = () => finish();
@@ -196,7 +196,7 @@
 		top: -0.3em;
 		width: 1.7em;
 		aspect-ratio: 1;
-		display: flex;
+		padding: 0;
 	}
 
 	.icon-cont::after {

@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 
-	import * as siteMap from '../../utils/siteMap';
+	import siteMap from '$lib/utils/siteMap';
 </script>
 
 <aside>

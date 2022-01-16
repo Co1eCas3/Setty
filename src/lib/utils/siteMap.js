@@ -1,15 +1,19 @@
 import { urlMaker } from "./helpers";
 
-export const home = urlMaker({});
-export const login = urlMaker({ path: 'login' });
-export const userAccount = urlMaker({ path: '/user/account' });
-export const userBands = urlMaker({ path: 'user/bands' });
-export const userProfile = userBands;
-export const newUser = urlMaker({ path: 'user/account', hash: 'new' });
-export const newBand = urlMaker({ path: 'user/bands', hash: 'new' });
+const siteMap = {};
 
-export const band = webSafeName => urlMaker({ path: `${webSafeName}` });
-export const bandManage = webSafeName => urlMaker({ path: `${webSafeName}/manage` });
-export const repertoire = webSafeName => urlMaker({ path: `${webSafeName}/repertoire` });
-export const newList = webSafeName => urlMaker({ path: `${webSafeName}#new-list` });
-export const list = (webSafeName, listName) => urlMaker({ path: `${webSafeName}/${listName}` });
+siteMap.home = urlMaker({});
+siteMap.login = urlMaker({ path: 'login' });
+siteMap.userAccount = urlMaker({ path: '/user/account' });
+siteMap.userBands = urlMaker({ path: 'user/bands' });
+siteMap.userProfile = siteMap.userBands;
+siteMap.newUser = urlMaker({ path: 'user/account', hash: 'new' });
+siteMap.newBand = urlMaker({ path: 'user/bands', hash: 'new' });
+
+siteMap.band = webSafeName => urlMaker({ path: `${webSafeName}` });
+siteMap.bandManage = webSafeName => urlMaker({ path: `${webSafeName}/manage` });
+siteMap.repertoire = webSafeName => urlMaker({ path: `${webSafeName}/repertoire` });
+siteMap.newList = webSafeName => urlMaker({ path: `${webSafeName}#new-list` });
+siteMap.list = (webSafeName, listName) => urlMaker({ path: `${webSafeName}/${listName}` });
+
+export default siteMap;

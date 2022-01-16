@@ -4,7 +4,7 @@
 
 	import { firebase, user, userReady } from '$lib/stores/auth';
 	import * as validate from '$lib/utils/validate';
-	import * as siteMap from '$lib/utils/siteMap';
+	import siteMap from '$lib/utils/siteMap';
 
 	import ValidatedInput from '$lib/components/utilities/ValidatedInput.svelte';
 	import Loader from '$lib/components/utilities/Loader.svelte';
@@ -61,6 +61,7 @@
 					type="email"
 					placeholder="you@email.com"
 					bind:value={email}
+					transform={(val) => val.toLowerCase()}
 					validation={validate.email}
 					bind:isErred={emailErr}
 					showErrOnBlur={true}

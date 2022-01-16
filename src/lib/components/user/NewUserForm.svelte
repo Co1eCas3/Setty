@@ -3,7 +3,7 @@
 
 	import { user } from '$lib/stores/auth';
 	import * as validate from '$lib/utils/validate';
-	import * as siteMap from '$lib/utils/siteMap';
+	import siteMap from '$lib/utils/siteMap';
 
 	import Overlay from '$lib/components/utilities/Overlay.svelte';
 	import ValidatedInput from '../utilities/ValidatedInput.svelte';

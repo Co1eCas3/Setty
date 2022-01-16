@@ -53,7 +53,7 @@
 	}
 </script>
 
-<div class="cont__main" on:click>
+<div class="cont__main {$$restProps.class || ''}" on:click>
 	<select bind:this={selectEl} on:change={selectChangedHandler}>
 		<slot />
 	</select>
@@ -73,16 +73,14 @@
 	.cont__main {
 		position: relative;
 		z-index: 1;
-		/* width: 100%; */
-		margin: 0 auto;
 	}
 
 	.cont__main::after {
-		top: 0;
+		top: 25%;
 		right: 0;
 		z-index: -1;
 		margin-block: auto;
-		height: 50%;
+		height: 25%;
 		aspect-ratio: 1;
 		border-right: 2px solid currentColor;
 		border-bottom: 2px solid currentColor;
@@ -103,13 +101,13 @@
 
 	select:focus,
 	select:active {
-		outline: none;
+		/* outline: none; */
 	}
 
 	input {
 		position: relative;
 		z-index: 3;
-		width: calc(100% - 28px);
+		width: calc(100% - 3rem);
 		height: 2rem;
 		color: inherit;
 	}
@@ -121,9 +119,9 @@
 	i {
 		position: absolute;
 		top: 0;
-		right: 30px;
+		right: 20px;
 		z-index: 3;
-		height: 100%;
+		height: 70%;
 		aspect-ratio: 1;
 		display: flex;
 		justify-content: center;

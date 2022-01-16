@@ -1,6 +1,6 @@
 <script>
 	import { firebase } from '$lib/stores/auth';
-	import * as validate from '../../utils/validate';
+	import * as validate from '$lib/utils/validate';
 
 	import ValidatedInput from '../utilities/ValidatedInput.svelte';
 
@@ -36,6 +36,7 @@
 			placeholder="you@email.com"
 			bind:value={email}
 			validation={validate.email}
+			transform={(val) => val.toLowerCase()}
 			bind:isErred={emailIsErred}
 			waitForBlur={true}
 			on:focus

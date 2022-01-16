@@ -1,5 +1,5 @@
 <script context="module">
-	import * as siteMap from '$lib/utils/siteMap';
+	import siteMap from '$lib/utils/siteMap';
 
 	export function load() {
 		return {

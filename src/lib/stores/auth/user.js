@@ -3,6 +3,7 @@ import { writable, get } from 'svelte/store';
 import { urlMaker } from "$lib/utils/helpers";
 import { setToken, useToken } from "$lib/utils/token";
 import { firebase } from "./firebase";
+import siteMap from '$lib/utils/siteMap';
 
 
 // `$user = undefined` means auth status has not been resolved yet
@@ -41,9 +42,28 @@ function createUserStore() {
     });
   }
 
+  const createBand = (newBand) => {
+    return new Promise(async resolve => {
+      const url = urlMaker({ path: 'api/bands/create' });
+      const opts = {
+        method: "POST",
+        body: JSON.stringify(newBand)
+      }
+      const res = await useToken(url, opts);
+
+      if (!res.ok) return resolve(false);
+
+      const userStore = get(user);
+      userStore.bands = [...userStore.bands, res.data.band];
+      set(userStore);
+      resolve(true);
+    })
+  }
+
   return {
     subscribe,
-    updateUserName
+    updateUserName,
+    createBand
   }
 }
 

@@ -5,13 +5,14 @@
 	import deepcopy from 'deepcopy';
 
 	import { user } from '$lib/stores/auth';
-	import ctxKey from '../../utils/ctxKey.js';
+	import ctxKey from '$lib/utils/ctxKey.js';
 	import { useToken } from '$lib/utils/token.js';
 	import { urlMaker } from '$lib/utils/helpers.js';
 
 	import NewBandInfoForm from './NewBandInfoForm.svelte';
 	import NewBandInviteesForm from './NewBandInviteesForm.svelte';
 	import CreateBandFailed from './CreateBandFailed.svelte';
+	import Loader from '$lib/components/utilities/Loader.svelte';
 
 	export let closeWhenDone;
 
@@ -30,7 +31,8 @@
 
 	let curStep = 0;
 	const steps = [NewBandInfoForm, NewBandInviteesForm, CreateBandFailed];
-	let isReady;
+	let isReady,
+		submitting = false;
 
 	const advance = () => curStep++;
 	const regress = () => curStep--;
@@ -50,39 +52,41 @@
 			[]
 		);
 
-		createBand(copyForSend);
+		return copyForSend;
 	}
 
 	// TODO: a 'created' message of some kind
 	// TODO: send firebase emails (silent & and an app-wide message? wait til complete?)
-	async function createBand(newBand) {
-		const url = urlMaker({ path: 'api/bands/create' });
-		const res = await useToken(url, { method: 'POST', body: JSON.stringify(newBand) });
+	async function createBand() {
+		submitting = true;
+		const newBand = prepForSend();
+		const res = await user.createBand(newBand);
+		submitting = false;
 
-		if (!res.ok) {
-			console.log(res.data.error);
-			return advance();
-		}
-
-		$user.bands.push(res.data.band);
-		closeWhenDone();
+		if (!res) return advance();
+		closeWhenDone(newBand.band.webSafeName);
 	}
 </script>
 
-<form class="form-cont" on:submit|preventDefault={prepForSend}>
-	<h1>Add a new band</h1>
+<form class="form-cont" on:submit|preventDefault={createBand}>
+	{#if submitting}
+		<Loader />
+	{:else}
+		<h1>Add a new band</h1>
 
-	<svelte:component this={steps[curStep]} bind:isReady />
+		<svelte:component this={steps[curStep]} bind:isReady />
 
-	<div class="btn-cont">
-		<button class:btnVisible={curStep === 1 || curStep === 2} on:click|preventDefault={regress}
-			>Back</button
-		>
-		<button class:btnVisible={curStep === 1} type="submit" disabled={!isReady}>Create Band</button>
-		<button class:btnVisible={curStep === 0} on:click|preventDefault={advance} disabled={!isReady}
-			>Next</button
-		>
-	</div>
+		<div class="btn-cont">
+			<button class:btnVisible={curStep === 1 || curStep === 2} on:click|preventDefault={regress}
+				>Back</button
+			>
+			<button class:btnVisible={curStep === 1} type="submit" disabled={!isReady}>Create Band</button
+			>
+			<button class:btnVisible={curStep === 0} on:click|preventDefault={advance} disabled={!isReady}
+				>Next</button
+			>
+		</div>
+	{/if}
 </form>
 
 <style>

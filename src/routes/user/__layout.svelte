@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 
 	import { user, userReady } from '$lib/stores/auth';
-	import * as siteMap from '$lib/utils/siteMap';
+	import siteMap from '$lib/utils/siteMap';
 
 	import Loader from '$lib/components/utilities/Loader.svelte';
 	import UserSideNav from '$lib/components/user/UserSideNav.svelte';

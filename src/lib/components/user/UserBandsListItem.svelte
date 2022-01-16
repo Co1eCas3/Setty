@@ -1,5 +1,5 @@
 <script>
-	import * as siteMap from '../../utils/siteMap';
+	import siteMap from '$lib/utils/siteMap';
 
 	export let name;
 	export let webSafeName;

@@ -2,12 +2,13 @@
 	import { page } from '$app/stores';
 
 	import { user } from '$lib/stores/auth';
-	import * as siteMap from '$lib/utils/siteMap';
+	import siteMap from '$lib/utils/siteMap';
 
 	import UserBandsListItem from '$lib/components/user/UserBandsListItem.svelte';
 	import Overlay from '$lib/components/utilities/Overlay.svelte';
 	import NewBandSequence from '$lib/components/user/NewBandSequence.svelte';
 	import { browser } from '$app/env';
+	import { goto } from '$app/navigation';
 
 	// TODO: THIS IS NOT WORKING ($page.url.hash = '', not causing store updates on change)
 	// $: console.log('logging $page.url: ', $page.url);
@@ -30,8 +31,8 @@
 
 {#if $page.url.hash}
 	{console.log('have a hash')}
-	<Overlay>
-		<NewBandSequence />
+	<Overlay cancelFn={() => goto(siteMap.userBands)}>
+		<NewBandSequence closeWhenDone={(wsn) => goto(siteMap.band(wsn))} />
 	</Overlay>
 {/if}
 

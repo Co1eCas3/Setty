@@ -2,7 +2,7 @@
 	import { getContext } from 'svelte';
 
 	import * as validate from '$lib/utils/validate';
-	import ctxKey from '../../utils/ctxKey';
+	import ctxKey from '$lib/utils/ctxKey';
 	import bandRoleMap from '$lib/utils/bandRoleMap';
 	import { makeBandNameWebSafe } from '$lib/utils/helpers';
 
@@ -82,6 +82,11 @@
 		font-size: var(--font-size-fluid-1);
 		color: var(--clr__lt-main);
 		gap: 0.4rem;
+	}
+
+	h3,
+	h6 {
+		color: var(--clr__lt-half);
 	}
 
 	.wsn-input-cont {

@@ -37,30 +37,41 @@
 	}
 </script>
 
-<legend>
+<legend class="flex stack">
 	<h3>Invite bandmates</h3>
 
 	{#each $newBand.band.users as invitee, i}
-		<div class="invitee-cont">
-			<fieldset>
+		<div class="invitee-cont flex">
+			<fieldset class="flex">
 				<ValidatedInput
+					class="email-inp"
 					type="email"
 					placeholder="bandmate@band.com"
 					bind:value={invitee.email}
+					transform={(val) => val.toLowerCase()}
 					validation={validate.email}
 					bind:isErred={emailErrors[i]}
-					waitForBlur={true}
+					showErrOnBlur={true}
 				/>
 
-				<select bind:value={invitee.userRole}>
+				<ContentEditableSelect class="select" bind:selectedValue={invitee.userRole}>
 					{#each userRoleMap as role, val}
 						{#if val >= 2}
 							<option value={val}>{role}</option>
 						{/if}
 					{/each}
-				</select>
+				</ContentEditableSelect>
+
+				<!-- <select bind:value={invitee.userRole}>
+					{#each userRoleMap as role, val}
+						{#if val >= 2}
+							<option value={val}>{role}</option>
+						{/if}
+					{/each}
+				</select> -->
 
 				<ContentEditableSelect
+					class="select"
 					bind:selectedValue={invitee.bandRole}
 					bind:customValue={invitee.otherBandRoleDescription}
 				>
@@ -81,3 +92,36 @@
 		</div>
 	{/each}
 </legend>
+
+<style>
+	legend {
+		padding: 1rem 2rem;
+		font-size: var(--font-size-fluid-1);
+		color: var(--clr__lt-main);
+		gap: 0.4rem;
+	}
+
+	h3 {
+		color: var(--clr__lt-half);
+	}
+
+	.invitee-cont {
+		width: 50ch;
+		padding: 1em 2em;
+	}
+
+	fieldset {
+		padding: 0.5rem 2rem;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 0.5rem;
+	}
+
+	fieldset :global(.email-inp) {
+		flex-basis: 100%;
+	}
+
+	fieldset :global(.select) {
+		flex-basis: calc(50% - 1rem);
+	}
+</style>

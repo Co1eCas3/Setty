@@ -4,7 +4,7 @@
 	import { page } from '$app/stores';
 
 	import { user, userReady } from '$lib/stores/auth';
-	import * as siteMap from '$lib/utils/siteMap';
+	import siteMap from '$lib/utils/siteMap';
 
 	import Auth from './Auth.svelte';
 
